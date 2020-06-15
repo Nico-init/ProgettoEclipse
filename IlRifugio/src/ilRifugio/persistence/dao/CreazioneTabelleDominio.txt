@@ -1,9 +1,12 @@
+/*tabelle username password*/
 CREATE TABLE password (
 	idPassword int NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
 	password varchar(64) NOT NULL,
 	PRIMARY KEY (IDPASSWORD)
 );
 
+INSERT INTO password (PASSWORD) VALUES ('gigi');
+INSERT INTO utenti (USERNAME, nome, ruolo, IDPASSWORD ) VALUES ('username1', 'niccolo', 'cameriere', 1);
 
 CREATE TABLE utenti (
 	username varchar(50) NOT NULL PRIMARY KEY,
@@ -14,12 +17,22 @@ CREATE TABLE utenti (
 
 INSERT INTO UTENTE VALUES ('Prova1', 'Nico', 'cameriere', 1)
 
+
+CREATE TABLE coperti (
+	nome varchar(50) NOT NULL PRIMARY key,
+	prezzo double NOT NULL
+);
+
+
+
 CREATE TABLE ordini (
 	idOrdine int NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
 	tavolo varchar(30) NOT NULL,
 	DATA timestamp NOT NULL,
 	copertiAdulti int,
 	copertiBambini int,
+	copertoAdulto varchar(50) NOT NULL REFERENCES coperti,
+	copertoBambino varchar(50) NOT NULL REFERENCES coperti,
 	UNIQUE (tavolo, data),
 	PRIMARY KEY (IDORDINE )
 );
@@ -36,11 +49,8 @@ CREATE TABLE bevande (
 	prezzo double NOT NULL
 );
 
-CREATE TABLE coperti (
-	nome varchar(50) NOT NULL PRIMARY key,
-	prezzo double NOT NULL
-);
 
+DROP TABLE BEVANDEORDINATE ;
 
 CREATE TABLE pietanzeOrdinate (
 	idOrdine int NOT NULL REFERENCES ordini,
@@ -58,11 +68,4 @@ CREATE TABLE bevandeOrdinate (
 	nomeBevanda varchar(50) NOT NULL REFERENCES bevande,
 	quantita int NOT NULL,
 	PRIMARY KEY (IDORDINE, nomebevanda)
-);
-
-CREATE TABLE copertiOrdini (
-	idOrdine int NOT NULL REFERENCES ordini,
-	nomeCoperto varchar(50) NOT NULL REFERENCES coperti,
-	quantita int NOT NULL,
-	PRIMARY KEY (IDORDINE, nomeCoperto)
 );

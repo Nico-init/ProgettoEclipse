@@ -3,8 +3,8 @@ package ilRifugio.serverLogin;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import ilRifugio.interfacce.controller.IControllerLogin;
-import ilRifugio.login.dao.LoginDao;
 import ilRifugio.persistence.dao.DAOFactory;
+import ilRifugio.persistence.dao.LoginDao;
 
 public class ControllerLogin implements IControllerLogin {
 

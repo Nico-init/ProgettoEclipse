@@ -1,12 +1,11 @@
-package ilRifugio.login.dao.db2;
+package ilRifugio.persistence.dao.db2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ilRifugio.login.dao.LoginDao;
-import ilRifugio.persistence.dao.db2.Db2DAOFactory;
+import ilRifugio.persistence.dao.LoginDao;
 
 public class Db2LoginDao implements LoginDao {
 

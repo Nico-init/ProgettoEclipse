@@ -5,9 +5,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import ilRifugio.persistence.dao.DAOFactory;
+import ilRifugio.persistence.dao.LoginDao;
 import ilRifugio.persistence.dao.PietanzaDao;
-import ilRifugio.login.dao.LoginDao;
-import ilRifugio.login.dao.db2.Db2LoginDao;
 import ilRifugio.persistence.dao.BevandaDao;
 import ilRifugio.persistence.dao.CopertoDao;
 

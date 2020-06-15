@@ -1,6 +1,5 @@
 package ilRifugio.persistence.dao;
 
-import ilRifugio.login.dao.LoginDao;
 import ilRifugio.persistence.dao.db2.Db2DAOFactory;
 
 public abstract class DAOFactory {
