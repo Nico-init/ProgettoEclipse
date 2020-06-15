@@ -1,23 +1,18 @@
-package ilRifugio.serverRistorante.dao.db2;
+package ilRifugio.persistence.dao.db2;
 
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import ilRifugio.serverRistorante.dao.BevandaDao;
-import ilRifugio.serverRistorante.dao.CopertoDao;
-import ilRifugio.serverRistorante.dao.DAOFactory;
+import ilRifugio.persistence.dao.DAOFactory;
+import ilRifugio.persistence.dao.PietanzaDao;
+import ilRifugio.persistence.dao.BevandaDao;
+import ilRifugio.persistence.dao.CopertoDao;
 
 public class Db2DAOFactory extends DAOFactory {
 
-	/**
-	 * Name of the class that holds the jdbc driver implementation for the DB2 database
-	 */
 	public static final String DRIVER = "com.ibm.db2.jcc.DB2Driver";
 	
-	/**
-	 * URI of the database to connect to
-	 */
 	public static final String DBURL = "jdbc:db2://diva.deis.unibo.it:50000/tw_stud";
 
 	public static final String USERNAME = "00825611";
@@ -25,13 +20,12 @@ public class Db2DAOFactory extends DAOFactory {
 
 	// --------------------------------------------
 
-	// static initializer block to load db driver class in memory
 	static {
 		try {
 			Class.forName(DRIVER);
 		} 
 		catch (Exception e) {
-			System.err.println("HsqldbDAOFactory: failed to load DB2 JDBC driver" + "\n" + e.toString());
+			System.err.println("Failed to load DB2 JDBC driver" + "\n" + e.toString());
 			e.printStackTrace();
 		}
 	}
@@ -74,7 +68,7 @@ public class Db2DAOFactory extends DAOFactory {
 	}
 
 	@Override
-	public Db2PietanzaDAO getPietanzaDAO() {
+	public PietanzaDao getPietanzaDAO() {
 		return new Db2PietanzaDAO();
 	}
 	
