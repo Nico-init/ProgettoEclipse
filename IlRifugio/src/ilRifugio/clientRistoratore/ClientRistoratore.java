@@ -27,6 +27,8 @@ public class ClientRistoratore {
 		if (serverRistorante == null)
 			System.exit(2);
 		
+		serverRistorante.modificaCoperto("adulto", 3);
+		
 		System.out.println("--- MENU ---");
 		System.out.println("--- COPERTI ---");
 		for (ICoperto coperto : serverRistorante.elencaCoperti())

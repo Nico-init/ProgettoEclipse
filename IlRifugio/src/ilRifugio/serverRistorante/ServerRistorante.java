@@ -6,16 +6,19 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
 import java.util.Date;
 
+import ilRifugio.clientCuoco.ControllerPreparazioni;
 import ilRifugio.dbMock.DbMock;
 import ilRifugio.interfacce.controller.IControllerAccount;
 import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.controller.IControllerOrdine;
+import ilRifugio.interfacce.controller.IControllerPreparazioni;
 import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.ICoperto;
 import ilRifugio.interfacce.dominio.IOrdine;
 import ilRifugio.interfacce.dominio.IPietanza;
 import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 import ilRifugio.serverRistorante.dominio.OrdineConsegna;
+import ilRifugio.serverRistorante.dominio.PietanzaOrdinata;
 import ilRifugio.serverRistorante.gestioneAccount.ControllerAccount;
 import ilRifugio.serverRistorante.gestioneMenu.ControllerMenu;
 import ilRifugio.serverRistorante.gestioneOrdine.ControllerOrdine;
@@ -29,6 +32,7 @@ public class ServerRistorante extends UnicastRemoteObject
 	private static IControllerOrdine controllerOrdine;
 	private static IControllerMenu controllerMenu;
 	private static IControllerAccount controllerAccount;
+	private static IControllerPreparazioni controllerPreparazioni;
 
 	protected ServerRistorante() throws RemoteException {
 		super();
@@ -51,7 +55,8 @@ public class ServerRistorante extends UnicastRemoteObject
 		controllerOrdine = new ControllerOrdine();
 		controllerMenu = new ControllerMenu();
 		controllerAccount = new ControllerAccount();
-		DbMock.popolaMenu(controllerMenu);
+		controllerPreparazioni = new ControllerPreparazioni();
+		//DbMock.popolaMenu(controllerMenu);
 		DbMock.popolaAccount(controllerAccount);
 	}
 
@@ -130,7 +135,7 @@ public class ServerRistorante extends UnicastRemoteObject
 
 	@Override
 	public boolean modificaCoperto(String nome, double prezzo) throws RemoteException {
-		return controllerMenu.inserisciCoperto(nome, prezzo);
+		return controllerMenu.modificaCoperto(nome, prezzo);
 	}
 
 	@Override
@@ -192,19 +197,15 @@ public class ServerRistorante extends UnicastRemoteObject
 	public String elenca() throws RemoteException {
 		return controllerAccount.elenca();
 	}
-	
-	/*
-	private static IOrdine ordine;
-	
+
 	@Override
-	public void nuovoOrdine(int bambini, int adulti, String nome) throws RemoteException {
-		ordine = new Ordine(adulti, bambini, nome);
+	public String elencaPiattiDaPreparare(CategoriaPietanza categoriaPietanza) throws RemoteException {
+		return controllerPreparazioni.elencaPiattiDaPreparare(categoriaPietanza);
 	}
 
 	@Override
-	public void aggiungiPietanzaOrdine(IPietanza pietanza, int quantita, String note, OrdineConsegna ordineConsegna)
-			throws RemoteException {
-		ordine.aggiungiPietanza(pietanza, quantita, note, ordineConsegna);
+	public boolean segnaPiattoComeConsegnato(PietanzaOrdinata pietanzaOrdinata) throws RemoteException {
+		return controllerPreparazioni.segnaPiattoComeConsegnato(pietanzaOrdinata);
 	}
-	*/
+	
 }

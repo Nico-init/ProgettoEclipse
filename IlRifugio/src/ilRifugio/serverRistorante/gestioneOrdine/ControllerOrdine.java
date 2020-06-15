@@ -5,8 +5,11 @@ import java.util.Locale;
 import java.text.DateFormat;
 import java.util.Collection;
 
+import ilRifugio.interfacce.controller.IControllerLog;
+import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.controller.IControllerOrdine;
 import ilRifugio.interfacce.dominio.IBevanda;
+import ilRifugio.interfacce.dominio.ICoperto;
 import ilRifugio.interfacce.dominio.IOrdine;
 import ilRifugio.interfacce.dominio.IPietanza;
 import ilRifugio.serverRistorante.dominio.BevandaOrdinata;
@@ -14,18 +17,28 @@ import ilRifugio.serverRistorante.dominio.Ordine;
 import ilRifugio.serverRistorante.dominio.OrdineConsegna;
 import ilRifugio.serverRistorante.dominio.Ordini;
 import ilRifugio.serverRistorante.dominio.PietanzaOrdinata;
+import ilRifugio.serverRistorante.gestioneLog.ControllerLog;
+import ilRifugio.serverRistorante.gestioneMenu.ControllerMenu;
 
 public class ControllerOrdine implements IControllerOrdine {
 	
 	private Ordini ordini;	
+	private static IControllerMenu controllerMenu;
+	private static IControllerLog controllerLog;
 	
 	public ControllerOrdine() {
 		ordini = Ordini.getOrdiniInstance();
+		if (controllerMenu == null)
+			controllerMenu = new ControllerMenu();
+		if (controllerLog == null)
+			controllerLog = new ControllerLog();
 	}
 
 	@Override
 	public boolean nuovoOrdine(String nomeTavolo, int copertiA, int copertiB) {
-		IOrdine ordine = new Ordine(copertiA, copertiB, nomeTavolo);
+		Object[] coperti = controllerMenu.elencaCoperti().toArray();
+		IOrdine ordine = new Ordine(copertiA, copertiB, nomeTavolo, (ICoperto) coperti[0], (ICoperto) coperti[1]);
+		controllerLog.aggiungiEntry("utente", "nuovoOrdine_" + nomeTavolo);
 		return ordini.aggiungiOrdine(ordine);
 	}
 
@@ -36,6 +49,7 @@ public class ControllerOrdine implements IControllerOrdine {
 
 	@Override
 	public boolean eliminaOrdine(IOrdine ordine) {
+		controllerLog.aggiungiEntry("utente", "nuovoOrdine_" + ordine.getNomeTavolo() + "_" + ordine.getDataOra());
 		return ordini.rimuoviOrdine(ordine);
 	}
 
@@ -58,6 +72,7 @@ public class ControllerOrdine implements IControllerOrdine {
 							return modificaPietanzaOrdinata(tavolo, dataOra, pietanza, quantita, note, ordineConsegna);
 				}
 				ordine.aggiungiPietanza(pietanza, quantita, note, ordineConsegna);
+				controllerLog.aggiungiEntry("utente", "ordinaPietanza_" + tavolo + "_" + pietanza.getNome() + "_" + quantita);
 				return true;
 			}
 		}
@@ -77,6 +92,7 @@ public class ControllerOrdine implements IControllerOrdine {
 							return modificaBevandaOrdinata(tavolo, dataOra, bevanda, quantita);
 				}
 				ordine.aggiungiBevanda(bevanda, quantita);
+				controllerLog.aggiungiEntry("utente", "ordinaBevanda_" + tavolo + "_" + bevanda.getNome() + "_" + quantita);
 				return true;
 			}
 		}
@@ -93,6 +109,7 @@ public class ControllerOrdine implements IControllerOrdine {
 			if (ordine.getNomeTavolo().equals(tavolo) &&
 					dataEquals(ordine.getDataOra(),dataOra)) {
 				ordine.modificaPietanza(pietanza, quantita, note, ordineConsegna);
+				controllerLog.aggiungiEntry("utente", "modificaPietanzaOrdinata_" + tavolo + "_" + pietanza.getNome() + "_" + quantita);
 				return true;
 			}
 		}
@@ -108,6 +125,7 @@ public class ControllerOrdine implements IControllerOrdine {
 			if (ordine.getNomeTavolo().equals(tavolo) &&
 					dataEquals(ordine.getDataOra(),dataOra)) {
 				ordine.modificaBevanda(bevanda, quantita);
+				controllerLog.aggiungiEntry("utente", "modificaBevandaOrdinata_" + tavolo + "_" + bevanda.getNome() + "_" + quantita);
 				return true;
 			}
 		}
@@ -123,6 +141,7 @@ public class ControllerOrdine implements IControllerOrdine {
 			if (ordine.getNomeTavolo().equals(tavolo) &&
 					dataEquals(ordine.getDataOra(),dataOra)) {
 				ordine.rimuoviPietanza(pietanza, ordineConsegna);
+				controllerLog.aggiungiEntry("utente", "rimuoviPietanza_" + tavolo + "_" + pietanza.getNome());
 				return true;
 			}
 		}
@@ -136,6 +155,7 @@ public class ControllerOrdine implements IControllerOrdine {
 			if (ordine.getNomeTavolo().equals(tavolo) &&
 					dataEquals(ordine.getDataOra(),dataOra)) {
 				ordine.rimuoviBevanda(bevanda);
+				controllerLog.aggiungiEntry("utente", "rimuoviBevanda_" + tavolo + "_" + bevanda.getNome());
 				return true;
 			}
 		}

@@ -23,6 +23,7 @@ public class ClientCameriere {
     static String serviceName = "ServerRistorante";
     static String completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
 	
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws RemoteException {
 	    IServerRistoranteProva serverRistorante = null;
 		try {
@@ -43,14 +44,17 @@ public class ClientCameriere {
 			System.out.println(bevanda);
 		System.out.println("------------");
 		
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"),Locale.ITALY);		
+		
 		if (serverRistorante.elencaOrdini().size() != 2) {
 			serverRistorante.nuovoOrdine("tavolo1", 4, 3);
 			serverRistorante.nuovoOrdine("tavolo2", 3, 0);
+			Date now = new Date();
+			calendar.set(now.getYear() , now.getMonth(), now.getDate(), now.getHours(), now.getMinutes());
 		}
 		
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"),Locale.ITALY);
-		calendar.set(2020, 5, 13, 11, 37);
 		Date date = calendar.getTime();
+		
 		Pietanza pietanza1 = new Pietanza("lasagne", 11, CategoriaPietanza.PRIMO);
 		serverRistorante.ordinaPietanza("tavolo1", date, pietanza1, 2, "", OrdineConsegna.DOPO_PRIMI);
 		Pietanza pietanza2 = new Pietanza("bistecca", 15, CategoriaPietanza.SECONDO);

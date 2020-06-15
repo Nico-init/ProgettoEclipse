@@ -4,6 +4,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 import ilRifugio.serverRistorante.IServerRistoranteProva;
+import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 
 public class ClientCuoco {
 
@@ -20,6 +21,16 @@ public class ClientCuoco {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		ControllerPreparazioni controllerPreparazioni = new ControllerPreparazioni();
+		
+		String piattiDaPreparare = serverRistorante.elencaPiattiDaPreparare(CategoriaPietanza.PRIMO);
+		String[] split1 = piattiDaPreparare.split("_");
+		if (!split1[0].equals("")) {
+			String[] split2;
+			for (int i=0; i<split1.length; i++) {
+				split2 = split1[i].split("&");
+				System.out.println(split2[0] + "\t" + split2[1] + "\t" + split2[2]);
+			}	
+		}
+		
 	}
 }

@@ -35,4 +35,7 @@ public interface IOrdine extends Serializable {
 	public Collection<BevandaOrdinata> getBevande();
 	public void setBevande(Collection<BevandaOrdinata> bevande);
 	
+	public void aggiungiObs(IOrdineEvents obs);
+	public void rimuoviObs(IOrdineEvents obs);
+	
 }

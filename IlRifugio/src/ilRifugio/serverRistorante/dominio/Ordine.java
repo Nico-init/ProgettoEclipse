@@ -7,27 +7,25 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.ICoperto;
 import ilRifugio.interfacce.dominio.IOrdine;
+import ilRifugio.interfacce.dominio.IOrdineEvents;
 import ilRifugio.interfacce.dominio.IPietanza;
-import ilRifugio.serverRistorante.gestioneMenu.ControllerMenu;
 
 public class Ordine implements IOrdine {
 
 	private static final long serialVersionUID = -173804405338020071L;
 	
 	private int copertiAdulti;
+	private ICoperto copertoAdulto;
 	private int copertiBambini;
+	private ICoperto copertoBambino;
 	private String nomeTavolo;
 	private Date dataOra;
 	private List<PietanzaOrdinata> pietanze;
 	private List<BevandaOrdinata> bevande;
-
-	private static IControllerMenu controllerMenu;
-	private double prezzoCopertiAdulti;
-	private double prezzoCopertiBambini;
+	private List<IOrdineEvents> osservatori;
 	
 	public int getCopertiAdulti() {
 		return copertiAdulti;
@@ -81,7 +79,23 @@ public class Ordine implements IOrdine {
 			this.bevande.add(bo);
 	}
 
-	public Ordine(int a, int b, String nome) {
+	public ICoperto getCopertoAdulto() {
+		return copertoAdulto;
+	}
+
+	public void setCopertoAdulto(ICoperto copertoAdulto) {
+		this.copertoAdulto = copertoAdulto;
+	}
+
+	public ICoperto getCopertoBambino() {
+		return copertoBambino;
+	}
+
+	public void setCopertoBambino(ICoperto copertoBambino) {
+		this.copertoBambino = copertoBambino;
+	}
+
+	public Ordine(int a, int b, String nome, ICoperto ca, ICoperto cb) {
 		copertiAdulti = a;
 		copertiBambini = b;
 		nomeTavolo = nome;
@@ -89,10 +103,10 @@ public class Ordine implements IOrdine {
 		pietanze = new LinkedList<>();
 		bevande = new LinkedList<>();
 		
-		if (controllerMenu == null)
-			controllerMenu = new ControllerMenu();
-		prezzoCopertiAdulti = ((ICoperto)controllerMenu.elencaCoperti().toArray()[0]).getPrezzo();
-		prezzoCopertiBambini = ((ICoperto)controllerMenu.elencaCoperti().toArray()[0]).getPrezzo();
+		copertoAdulto = ca;
+		copertoBambino = cb;
+		
+		osservatori = new LinkedList<>();
 	}
 
 	@Override
@@ -139,6 +153,7 @@ public class Ordine implements IOrdine {
 		nuovaPietanzaOrdinata.setNote(note);
 		nuovaPietanzaOrdinata.setOrdineConsegna(ordineConsegna);
 		pietanze.add(nuovaPietanzaOrdinata);
+		onNuovaPietanza();
 	}
 
 	@Override
@@ -158,6 +173,7 @@ public class Ordine implements IOrdine {
 					p.getOrdineConsegna().equals(ordineConsegna)) {
 				p.setNote(note);
 				p.setQuantita(quantita);
+				onModificaPietanza();
 				break;
 			}
 		}
@@ -196,9 +212,9 @@ public class Ordine implements IOrdine {
 		result += nomeTavolo + "_";
 		result += df.format(dataOra) + "_";
 		result += copertiAdulti + "_";
-		totale += prezzoCopertiAdulti * copertiAdulti;
+		totale += copertoAdulto.getPrezzo() * copertiAdulti;
 		result += copertiBambini;
-		totale += prezzoCopertiBambini * copertiBambini;
+		totale += copertoBambino.getPrezzo() * copertiBambini;
 		
 			result += "_pietanze";
 			for (PietanzaOrdinata p : pietanze) {
@@ -221,6 +237,7 @@ public class Ordine implements IOrdine {
 			if (p.getPietanza().getNome().equals(pietanza.getNome()) &&
 					p.getOrdineConsegna().equals(ordineConsegna)) {
 				pietanze.remove(p);
+				onModificaPietanza();
 				break;
 			}
 		}
@@ -235,5 +252,32 @@ public class Ordine implements IOrdine {
 			}
 		}
 	}
+
+	@Override
+	public void aggiungiObs(IOrdineEvents obs) {
+		osservatori.add(obs);
+	}
+
+	@Override
+	public void rimuoviObs(IOrdineEvents obs) {
+		osservatori.remove(obs);
+	}
+	
+	private void onNuovaPietanza() {
+		for (IOrdineEvents obs : osservatori)
+			obs.aggiunta(this);
+	}
+	
+	private void onModificaPietanza() {
+		for (IOrdineEvents obs : osservatori)
+			obs.modifica(this);
+	}
+	
+	/*
+	private void onConsegnaPietanza() {
+		for (IOrdineEvents obs : osservatori)
+			obs.consegna(this);
+	}
+	*/
 
 }
