@@ -22,3 +22,6 @@
 15/06/20, 12:00	modificaBevandaOrdinata_tavolo1_birra_1	utente
 15/06/20, 12:00	ordinaPietanza_tavolo2_spaghetti_5	utente
 15/06/20, 12:01	modificaCopertoAdulto_3.0	ristoratore
+15/06/20, 22:24	modificaCopertoAdulto_3.0	ristoratore
+15/06/20, 22:26	modificaCopertoAdulto_3.0	ristoratore
+15/06/20, 22:27	modificaCopertoAdulto_3.0	ristoratore

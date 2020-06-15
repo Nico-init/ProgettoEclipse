@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import ilRifugio.clientCuoco.ControllerPreparazioni;
-import ilRifugio.dbMock.DbMock;
 import ilRifugio.interfacce.controller.IControllerAccount;
 import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.controller.IControllerOrdine;
@@ -57,7 +56,7 @@ public class ServerRistorante extends UnicastRemoteObject
 		controllerAccount = new ControllerAccount();
 		controllerPreparazioni = new ControllerPreparazioni();
 		//DbMock.popolaMenu(controllerMenu);
-		DbMock.popolaAccount(controllerAccount);
+		//DbMock.popolaAccount(controllerAccount);
 	}
 
 	
