@@ -111,15 +111,55 @@ public class Db2AccountDAO implements AccountDao {
 
 	@Override
 	public boolean update(String nome, String username, String password, String ruolo) {
-		boolean result = false;
-		// DA COMPLETARE
-		return result;
+		delete(nome);
+		create(nome, username, password, ruolo);
+		return true;
 	}
 
 	@Override
 	public boolean delete(String nome) {
+		Connection con = Db2DAOFactory.createConnection();
+		PreparedStatement statement = null;
 		boolean result = false;
-		// DA COMPLETARE
+		
+		if (nome != null) {
+			try {
+				statement = con.prepareStatement("select idPassword from utenti where nome = ?");
+				statement.setString(1, nome);
+				ResultSet res = statement.executeQuery();
+				int idPassword = res.getInt(1);
+				statement.close();
+				
+				//eliminazione password
+				statement = con.prepareStatement("delete from password where idpassword = ?");
+				statement.setInt(1, idPassword);
+				statement.executeUpdate();
+				statement.close();
+				
+				//eliminazione utente
+				statement = con.prepareStatement("delete from utenti where nome = ?");
+				statement.setString(1, nome);
+				
+				if(statement.executeUpdate() == 1) 
+					result = true;
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (con != null) {
+						con.close();
+					}
+
+					if (statement != null) {
+						statement.close();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		return result;
 	}
 
