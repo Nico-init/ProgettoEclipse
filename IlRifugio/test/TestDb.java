@@ -1,5 +1,6 @@
 import ilRifugio.persistence.dao.DAOFactory;
 import ilRifugio.interfacce.controller.IControllerLogin;
+import ilRifugio.persistence.dao.AccountDao;
 import ilRifugio.persistence.dao.BevandaDao;
 import ilRifugio.persistence.dao.CopertoDao;
 import ilRifugio.persistence.dao.PietanzaDao;
@@ -16,6 +17,7 @@ public class TestDb {
 		PietanzaDao pietanzaDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getPietanzaDAO();
 		BevandaDao bevandaDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getBevandaDAO();
 		CopertoDao copertiDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getCopertoDAO();
+		AccountDao accountDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getAccountDao();
 		
 		/*
 		try {
@@ -51,11 +53,16 @@ public class TestDb {
 		System.out.println("Coperto adulto: " + copertiDao.read("adulto").getPrezzo());
 		System.out.println("Coperto bambino: " + copertiDao.read("bambino").getPrezzo());
 */		
+		accountDao.aggiungiAccount("usernmae2", "Secondo", "password", "cameriere");
+		System.out.println(accountDao.elencaAccount());
 		
+		
+/*		
 		IControllerLogin ctrl = new ControllerLogin();
 		String result = ctrl.autentica("username1", "niccolo");
-		
 		System.out.println(result);
+*/			
+		
 		System.out.println("Fatto");
 	}
 
