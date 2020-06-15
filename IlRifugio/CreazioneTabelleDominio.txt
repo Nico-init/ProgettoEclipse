@@ -4,7 +4,6 @@ CREATE TABLE password (
 	PRIMARY KEY (IDPASSWORD)
 );
 
-INSERT INTO password (PASSWORD) VALUES ('gigi');
 
 CREATE TABLE utenti (
 	username varchar(50) NOT NULL PRIMARY KEY,
