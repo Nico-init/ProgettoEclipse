@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 
 import ilRifugio.persistence.dao.DAOFactory;
 import ilRifugio.persistence.dao.PietanzaDao;
+import ilRifugio.login.dao.LoginDao;
+import ilRifugio.login.dao.db2.Db2LoginDao;
 import ilRifugio.persistence.dao.BevandaDao;
 import ilRifugio.persistence.dao.CopertoDao;
 
@@ -70,6 +72,12 @@ public class Db2DAOFactory extends DAOFactory {
 	@Override
 	public PietanzaDao getPietanzaDAO() {
 		return new Db2PietanzaDAO();
+	}
+
+
+	@Override
+	public LoginDao getLoginDAO() {
+		return new Db2LoginDao();
 	}
 	
 }

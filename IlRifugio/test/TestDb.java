@@ -1,7 +1,9 @@
 import ilRifugio.persistence.dao.DAOFactory;
+import ilRifugio.interfacce.controller.IControllerLogin;
 import ilRifugio.persistence.dao.BevandaDao;
 import ilRifugio.persistence.dao.CopertoDao;
 import ilRifugio.persistence.dao.PietanzaDao;
+import ilRifugio.serverLogin.ControllerLogin;
 import ilRifugio.serverRistorante.dominio.Bevanda;
 import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 import ilRifugio.serverRistorante.dominio.Coperto;
@@ -44,11 +46,16 @@ public class TestDb {
 		copertiDao.create(new Coperto("adulto", 2.5));
 		copertiDao.create(new Coperto("bambino", 1.5));
 		*/
-		System.out.println("Pietanze: " + pietanzaDao.leggiPietanze().size());
+/*		System.out.println("Pietanze: " + pietanzaDao.leggiPietanze().size());
 		System.out.println("Bevande: " + bevandaDao.leggiBevande().size());
 		System.out.println("Coperto adulto: " + copertiDao.read("adulto").getPrezzo());
 		System.out.println("Coperto bambino: " + copertiDao.read("bambino").getPrezzo());
+*/		
 		
+		IControllerLogin ctrl = new ControllerLogin();
+		String result = ctrl.autentica("username1", "niccolo");
+		
+		System.out.println(result);
 		System.out.println("Fatto");
 	}
 
