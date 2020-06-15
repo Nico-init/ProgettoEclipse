@@ -1,0 +1,69 @@
+CREATE TABLE password (
+	idPassword int NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	password varchar(64) NOT NULL,
+	PRIMARY KEY (IDPASSWORD)
+);
+
+INSERT INTO password (PASSWORD) VALUES ('gigi');
+
+CREATE TABLE utenti (
+	username varchar(50) NOT NULL PRIMARY KEY,
+	nome varchar(50) NOT NULL,
+	ruolo varchar(50),
+	idPassword int NOT NULL REFERENCES password
+);
+
+INSERT INTO UTENTE VALUES ('Prova1', 'Nico', 'cameriere', 1)
+
+CREATE TABLE ordini (
+	idOrdine int NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+	tavolo varchar(30) NOT NULL,
+	DATA timestamp NOT NULL,
+	copertiAdulti int,
+	copertiBambini int,
+	UNIQUE (tavolo, data),
+	PRIMARY KEY (IDORDINE )
+);
+
+CREATE TABLE pietanze (
+	nome varchar(50) NOT NULL PRIMARY key,
+	prezzo double NOT NULL,
+	categoriaPietanza varchar(30) NOT NULL
+);
+
+
+CREATE TABLE bevande (
+	nome varchar(50) NOT NULL PRIMARY key,
+	prezzo double NOT NULL
+);
+
+CREATE TABLE coperti (
+	nome varchar(50) NOT NULL PRIMARY key,
+	prezzo double NOT NULL
+);
+
+
+CREATE TABLE pietanzeOrdinate (
+	idOrdine int NOT NULL REFERENCES ordini,
+	nomePietanza varchar(50) NOT NULL REFERENCES pietanze,
+	quantita int NOT NULL,
+	note varchar(100),
+	consegnato int NOT null,
+	ordineConsegna varchar(50) NOT NULL,
+	PRIMARY KEY (IDORDINE, nomePietanza)
+);
+
+
+CREATE TABLE bevandeOrdinate (
+	idOrdine int NOT NULL REFERENCES ordini,
+	nomeBevanda varchar(50) NOT NULL REFERENCES bevande,
+	quantita int NOT NULL,
+	PRIMARY KEY (IDORDINE, nomebevanda)
+);
+
+CREATE TABLE copertiOrdini (
+	idOrdine int NOT NULL REFERENCES ordini,
+	nomeCoperto varchar(50) NOT NULL REFERENCES coperti,
+	quantita int NOT NULL,
+	PRIMARY KEY (IDORDINE, nomeCoperto)
+);
