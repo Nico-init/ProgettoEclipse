@@ -25,7 +25,7 @@ public class Db2AccountDAO implements AccountDao {
 				statement1.setString(1, password);
 				statement1.executeUpdate();
 				
-				System.out.println(password);
+				//System.out.println(password);
 				
 				statement2 = con.prepareStatement("select idpassword from password where password = ?");
 				statement2.setString(1, password);
@@ -127,21 +127,25 @@ public class Db2AccountDAO implements AccountDao {
 				statement = con.prepareStatement("select idPassword from utenti where nome = ?");
 				statement.setString(1, nome);
 				ResultSet res = statement.executeQuery();
-				int idPassword = res.getInt(1);
-				statement.close();
-				
-				//eliminazione password
-				statement = con.prepareStatement("delete from password where idpassword = ?");
-				statement.setInt(1, idPassword);
-				statement.executeUpdate();
-				statement.close();
-				
-				//eliminazione utente
-				statement = con.prepareStatement("delete from utenti where nome = ?");
-				statement.setString(1, nome);
-				
-				if(statement.executeUpdate() == 1) 
-					result = true;
+				if (res.next()) {
+					
+					int idPassword = res.getInt("idpassword");
+					statement.close();
+					
+					//eliminazione utente
+					statement = con.prepareStatement("delete from utenti where nome = ?");
+					statement.setString(1, nome);
+					statement.executeUpdate();
+					statement.close();
+					
+					//eliminazione password
+					statement = con.prepareStatement("delete from password where idpassword = ?");
+					statement.setInt(1, idPassword);
+									
+					if(statement.executeUpdate() == 1) 
+						result = true;
+					
+				}
 				
 			} catch (SQLException e) {
 				e.printStackTrace();

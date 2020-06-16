@@ -53,11 +53,11 @@ public class TestDb {
 		System.out.println("Coperto bambino: " + copertiDao.read("bambino").getPrezzo());	
 		*/
 		
-		///*
+		/*
 		IControllerLogin ctrl = new ControllerLogin();
 		String result = ctrl.autentica("niccolò_rif", "niccolo");		
 		System.out.println(result);
-		//*/
+		*/
 		
 		/*
 		AccountDao accountDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getAccountDAO();
@@ -69,7 +69,9 @@ public class TestDb {
 		
 		accountDao.create("niccolò", "niccolò_rif", "niccolo", "ristoratore");
 		accountDao.create("daniele", "daniele_rif", "daniele", "cameriere");
-		accountDao.create("ruben", "ruben_rif", "ruben", "cameriere");		
+		accountDao.create("ruben", "ruben_rif", "ruben", "cameriere");	
+		//accountDao.delete("daniele");
+		//accountDao.update("ruben", "ruben_rifugio", "rubenruben", "cameriere");
 		System.out.println(accountDao.leggiAccount());		
 		*/
 		
