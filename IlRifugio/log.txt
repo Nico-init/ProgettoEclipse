@@ -25,3 +25,7 @@
 15/06/20, 22:24	modificaCopertoAdulto_3.0	ristoratore
 15/06/20, 22:26	modificaCopertoAdulto_3.0	ristoratore
 15/06/20, 22:27	modificaCopertoAdulto_3.0	ristoratore
+16/06/20, 18:16	nuovoOrdine_prova	utente
+16/06/20, 18:16	ordinaBevanda_prova_CocaCola Lattina_2	utente
+16/06/20, 18:16	modificaBevandaOrdinata_prova_CocaCola Lattina_5	utente
+16/06/20, 21:24	nuovoOrdine_prova	utente
