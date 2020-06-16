@@ -66,7 +66,7 @@ public class ModificaPietanzaPane extends BorderPane {
 		hQuantita = new HBox();
 		hQuantita.setAlignment(Pos.CENTER);
 	
-		Label quantita = new Label("Quantit�                            ");
+		Label quantita = new Label("Quantita                            ");
 		quantita.setAlignment(Pos.CENTER_LEFT);
 		hQuantita.getChildren().add(quantita);
 		
@@ -138,7 +138,7 @@ public class ModificaPietanzaPane extends BorderPane {
 	
 	private void handler(Button inserisci) {
 		if(tfQuantita.getText().isEmpty() || tfQuantita.getText().equals(null)) {
-			alert("Errore", "Inserimento non corretto", "Quantit� errata o vuota");
+			alert("Errore", "Inserimento non corretto", "Quantita errata o vuota");
 			return;
 		}
 		if(tfNote.getText().length() > 500) {
@@ -156,7 +156,7 @@ public class ModificaPietanzaPane extends BorderPane {
 		try {
 			iQuantita = Integer.parseInt(sQuantita);
 		}catch(NumberFormatException e) {
-			alert("Errore", "Inserimento non corretto", "Quantit� deve essere un numero");
+			alert("Errore", "Inserimento non corretto", "Quantita deve essere un numero");
 			return;
 		}
 		controllerO.modificaPietanzaOrdinata(ordineDaVisualizzare.getNomeTavolo(), ordineDaVisualizzare.getDataOra(), pietanzaOrdinataDaVisualizzare.getPietanza(), iQuantita, sNote, oc);

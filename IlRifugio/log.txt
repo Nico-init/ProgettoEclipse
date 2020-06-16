@@ -29,3 +29,13 @@
 16/06/20, 18:16	ordinaBevanda_prova_CocaCola Lattina_2	utente
 16/06/20, 18:16	modificaBevandaOrdinata_prova_CocaCola Lattina_5	utente
 16/06/20, 21:24	nuovoOrdine_prova	utente
+16/06/20, 21:36	nuovoOrdine_Uno	utente
+16/06/20, 21:37	nuovoOrdine_Uno	utente
+16/06/20, 21:38	nuovoOrdine_Uno	utente
+16/06/20, 21:39	ordinaBevanda_Uno_CocaCola Lattina_5	utente
+16/06/20, 21:39	ordinaPietanza_Uno_Cotoletta alla milanese_2	utente
+16/06/20, 21:39	rimuoviPietanza_Uno_Cotoletta alla milanese	utente
+16/06/20, 21:41	nuovoOrdine_Uno	utente
+16/06/20, 21:41	ordinaBevanda_Uno_Fanta Lattina_3	utente
+16/06/20, 21:41	modificaBevandaOrdinata_Uno_Fanta Lattina_5	utente
+16/06/20, 21:41	ordinaPietanza_Uno_Tris di affettati_6	utente

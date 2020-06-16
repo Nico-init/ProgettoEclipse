@@ -96,9 +96,9 @@ public class OrdinePaneClientCameriere extends BorderPane {
 		tableCoperti.setMaxWidth(300);
 		tableCoperti.setMaxHeight(50);
 		tableCoperti.setItems(tvCopertiObservableList);
-        TableColumn<IOrdine, Integer> colCopertiAdulti = new TableColumn<IOrdine, Integer>("N� Adulti");
+        TableColumn<IOrdine, Integer> colCopertiAdulti = new TableColumn<IOrdine, Integer>("Adulti");
         colCopertiAdulti.setCellValueFactory(new PropertyValueFactory<>("copertiAdulti"));
-        TableColumn<IOrdine, Integer> colCopertiBambini = new TableColumn<IOrdine, Integer>("N� Bambini");
+        TableColumn<IOrdine, Integer> colCopertiBambini = new TableColumn<IOrdine, Integer>("Bambini");
         colCopertiBambini.setCellValueFactory(new PropertyValueFactory<>("copertiBambini"));  
         tableCoperti.getColumns().addAll(colCopertiAdulti, colCopertiBambini);
         hDettagli.getChildren().add(tableCoperti);
@@ -129,7 +129,7 @@ public class OrdinePaneClientCameriere extends BorderPane {
         TableColumn<BevandaOrdinata, IBevanda> colNomeBevanda = new TableColumn<BevandaOrdinata, IBevanda>("Bevanda e Prezzo");
         colNomeBevanda.setCellValueFactory(new PropertyValueFactory<>("bevanda"));
         colNomeBevanda.setMinWidth(150);
-        TableColumn<BevandaOrdinata, Integer> colQuantitaBevanda = new TableColumn<BevandaOrdinata, Integer>("Quantit�");
+        TableColumn<BevandaOrdinata, Integer> colQuantitaBevanda = new TableColumn<BevandaOrdinata, Integer>("Quantita");
         colQuantitaBevanda.setCellValueFactory(new PropertyValueFactory<>("quantita"));  
         TableColumn colRimuoviBevanda = new TableColumn("Rimuovi");
         colRimuoviBevanda.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
@@ -227,7 +227,7 @@ public class OrdinePaneClientCameriere extends BorderPane {
         TableColumn<PietanzaOrdinata, IPietanza> colNomePietanza = new TableColumn<PietanzaOrdinata, IPietanza>("Pietanza, Prezzo e Categoria");
         colNomePietanza.setCellValueFactory(new PropertyValueFactory<>("pietanza"));
         colNomePietanza.setMinWidth(150);
-        TableColumn<PietanzaOrdinata, Integer> colQuantita = new TableColumn<PietanzaOrdinata, Integer>("Quantit�"); 
+        TableColumn<PietanzaOrdinata, Integer> colQuantita = new TableColumn<PietanzaOrdinata, Integer>("Quantita"); 
         colQuantita.setCellValueFactory(new PropertyValueFactory<>("quantita"));  
         TableColumn<PietanzaOrdinata, OrdineConsegna> colOrdineConsegna = new TableColumn<PietanzaOrdinata, OrdineConsegna>("Ordine"); 
         colOrdineConsegna.setCellValueFactory(new PropertyValueFactory<>("ordineConsegna"));  

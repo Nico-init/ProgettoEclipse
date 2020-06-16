@@ -63,7 +63,7 @@ public class AggiungiPietanzaPane extends BorderPane {
 		hQuantita = new HBox();
 		hQuantita.setAlignment(Pos.CENTER);
 	
-		Label quantita = new Label("Quantit�                             ");
+		Label quantita = new Label("Quantita                             ");
 		quantita.setAlignment(Pos.CENTER_LEFT);
 		hQuantita.getChildren().add(quantita);
 		
