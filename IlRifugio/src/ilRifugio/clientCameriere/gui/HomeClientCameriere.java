@@ -1,6 +1,5 @@
 package ilRifugio.clientCameriere.gui;
 
-import ilRifugio.interfacce.controller.IControllerOrdine;
 import ilRifugio.interfacce.dominio.IOrdine;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,21 +16,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
+import java.rmi.RemoteException;
 import java.util.Date;
 
 public class HomeClientCameriere extends BorderPane {
 
-		@SuppressWarnings("unused")
-		private IControllerOrdine controllerO;
 		private Button aggiungi, chiudi;
 		private TableView<IOrdine> table;
 		private VBox onlyPane;
-		@SuppressWarnings("unused")
 		public IOrdine ordineDaVisualizzare;
 		
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public HomeClientCameriere(IControllerOrdine controllerO) {
-			this.controllerO = controllerO;
+		public HomeClientCameriere() throws RemoteException {
 			
 			onlyPane = new VBox();
 			onlyPane.setAlignment(Pos.CENTER);
@@ -43,7 +39,7 @@ public class HomeClientCameriere extends BorderPane {
 			
 			aggiungi = new Button("AGGIUNGI\n  ORDINE");
 			aggiungi.setOnAction(event -> {
-				AggiungiOrdinePane aggiungi = new AggiungiOrdinePane(controllerO);
+				AggiungiOrdinePane aggiungi = new AggiungiOrdinePane();
 				 Scene nextScene = new Scene(aggiungi, 750, 660, Color.BEIGE);
 				 ClientCameriereApp.getStage().setScene(nextScene);
              });
@@ -51,7 +47,7 @@ public class HomeClientCameriere extends BorderPane {
 			onlyPane.setSpacing(10);
 			
 			ObservableList<IOrdine> tvObservableList = FXCollections.observableArrayList();
-			tvObservableList.addAll(controllerO.elencaOrdini());
+			tvObservableList.addAll(ClientCameriereApp.serverRistorante.elencaOrdini());
 			table = new TableView<IOrdine>();		
 			table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	        table.setMaxWidth(600);
@@ -79,7 +75,7 @@ public class HomeClientCameriere extends BorderPane {
 	                        } else {
 	                            btn.setOnAction(event -> {
 	                            	ClientCameriereApp.setIOrdineDaVisualizzare(getTableView().getItems().get(getIndex()));
-	                            	OrdinePaneClientCameriere ordineP = new OrdinePaneClientCameriere(controllerO);
+	                            	OrdinePaneClientCameriere ordineP = new OrdinePaneClientCameriere();
 	               				 	Scene newScene = new Scene(ordineP, 750, 660, Color.BEIGE);
 	               				 	ClientCameriereApp.getStage().setScene(newScene);
 	                            });
@@ -100,7 +96,7 @@ public class HomeClientCameriere extends BorderPane {
 			chiudi = new Button("CHIUDI");
 			chiudi.setAlignment(Pos.BOTTOM_RIGHT);
 			chiudi.setOnAction(event -> {
-				LoginClientCameriere login = new LoginClientCameriere(controllerO);
+				LoginClientCameriere login = new LoginClientCameriere();
 				 Scene oldScene = new Scene(login, 750, 660, Color.BEIGE);
 				 ClientCameriereApp.getStage().setScene(oldScene);
              });

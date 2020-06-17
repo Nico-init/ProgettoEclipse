@@ -1,6 +1,7 @@
 package ilRifugio.clientCameriere.gui;
 
-import ilRifugio.interfacce.controller.IControllerOrdine;
+import java.rmi.RemoteException;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,14 +15,11 @@ import javafx.scene.paint.Color;
 
 public class LoginClientCameriere extends BorderPane {
 
-	@SuppressWarnings("unused")
-	private IControllerOrdine controllerO;
 	private TextField username, password;
 	private Button accedi;
 	private VBox onlyPane;
 	
-	public LoginClientCameriere(IControllerOrdine controllerO) {
-		this.controllerO = controllerO;
+	public LoginClientCameriere() {
 		
 		onlyPane = new VBox();
 		onlyPane.setAlignment(Pos.CENTER);
@@ -48,21 +46,28 @@ public class LoginClientCameriere extends BorderPane {
 		
 		accedi = new Button("ACCEDI");
 		accedi.setOnAction(e -> { 
-			if(username.getText().isEmpty() || username.getText().equals(null)  || username.getText().length() > 20) {
-				alert("Errore", "Inserimento non corretto", "Username errato, vuoto o con troppi caratteri (> 20)");
+			if (username.getText().isEmpty() || username.getText().equals(null)  || username.getText().length() > 20 ||
+				password.getText().isEmpty() || password.getText().equals(null) || password.getText().length() > 20){
+				alert("Errore", "Inserimento non corretto", "Username o password errati!");
 				return;
-			}
-			else if(password.getText().isEmpty() || password.getText().equals(null) || password.getText().length() > 20){
-				alert("Errore", "Inserimento non corretto", "password errata, vuota o con troppi caratteri (> 20)");
-				return;
-			}
-			else if (username.getText().contentEquals("Username") && password.getText().contentEquals("Password")) { //PROVA
-				HomeClientCameriere home = new HomeClientCameriere(controllerO);
-				Scene newScene = new Scene(home, 750, 660, Color.BEIGE);
-				ClientCameriereApp.getStage().setScene(newScene);
 			}
 			else {
-				alert("Errore", "Inserimento non corretto", "Username o Password errato");
+				String res;
+				try {
+					res = ClientCameriereApp.serverRistorante.autentica(username.getText(), password.getText());
+				} catch (RemoteException e1) {
+					res = null;
+				}
+				if (res != null && res.split(":")[1].equals("CAMERIERE")) {
+					HomeClientCameriere home;
+					try {
+						home = new HomeClientCameriere();
+						Scene newScene = new Scene(home, 750, 660, Color.BEIGE);
+						ClientCameriereApp.getStage().setScene(newScene);
+					} catch (RemoteException e1) {
+					}
+				} else
+					alert("Errore", "Inserimento non corretto", "Username o Password errato");
 			}
 		});
 		onlyPane.getChildren().add(accedi);

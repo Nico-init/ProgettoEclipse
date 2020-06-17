@@ -1,5 +1,7 @@
 package ilRifugio.clientRistoratore.gui;
 
+import java.rmi.RemoteException;
+
 import ilRifugio.interfacce.controller.IControllerAccount;
 import ilRifugio.interfacce.controller.IControllerLog;
 import ilRifugio.interfacce.controller.IControllerMenu;
@@ -41,5 +43,12 @@ public class MenuPane extends BorderPane {
 		Label titolo = new Label("Sistema di Gestione Ristoratore");
 		onlyPane.getChildren().add(titolo);
 		onlyPane.setSpacing(10); 
+		
+		try {
+			System.out.println(controllerM.elencaBevande());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

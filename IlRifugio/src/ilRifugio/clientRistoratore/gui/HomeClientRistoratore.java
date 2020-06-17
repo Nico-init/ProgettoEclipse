@@ -1,5 +1,6 @@
 package ilRifugio.clientRistoratore.gui;
 
+import java.rmi.RemoteException;
 import java.util.Date;
 
 import ilRifugio.interfacce.controller.IControllerAccount;
@@ -7,6 +8,7 @@ import ilRifugio.interfacce.controller.IControllerLog;
 import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.controller.IControllerOrdine;
 import ilRifugio.interfacce.dominio.IOrdine;
+import ilRifugio.serverRistorante.IServerRistorante;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -98,7 +100,14 @@ public class HomeClientRistoratore extends BorderPane {
 		onlyPane.setSpacing(50);
 		
 		ObservableList<IOrdine> tvObservableList = FXCollections.observableArrayList();
-		tvObservableList.addAll(controllerO.elencaOrdini());
+		try {
+			tvObservableList.addAll(controllerO.elencaOrdini());
+			
+			System.out.println("Stampa ordini" + controllerO.elencaOrdini());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		table = new TableView<IOrdine>();		
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setMaxWidth(600);

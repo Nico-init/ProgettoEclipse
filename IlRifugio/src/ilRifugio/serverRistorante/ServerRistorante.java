@@ -8,6 +8,7 @@ import java.util.Date;
 
 import ilRifugio.clientCuoco.ControllerPreparazioni;
 import ilRifugio.interfacce.controller.IControllerAccount;
+import ilRifugio.interfacce.controller.IControllerLogin;
 import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.controller.IControllerOrdine;
 import ilRifugio.interfacce.controller.IControllerPreparazioni;
@@ -15,6 +16,7 @@ import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.ICoperto;
 import ilRifugio.interfacce.dominio.IOrdine;
 import ilRifugio.interfacce.dominio.IPietanza;
+import ilRifugio.serverLogin.ControllerLogin;
 import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 import ilRifugio.serverRistorante.dominio.OrdineConsegna;
 import ilRifugio.serverRistorante.dominio.PietanzaOrdinata;
@@ -24,7 +26,7 @@ import ilRifugio.serverRistorante.gestioneOrdine.ControllerOrdine;
 
 
 public class ServerRistorante extends UnicastRemoteObject 
-	implements IServerRistoranteProva {
+	implements IServerRistorante {
 
 	private static final long serialVersionUID = -5214254358931718758L;
 	
@@ -32,8 +34,9 @@ public class ServerRistorante extends UnicastRemoteObject
 	private static IControllerMenu controllerMenu;
 	private static IControllerAccount controllerAccount;
 	private static IControllerPreparazioni controllerPreparazioni;
+	private static IControllerLogin controllerLogin;
 
-	protected ServerRistorante() throws RemoteException {
+	public ServerRistorante() throws RemoteException {
 		super();
 	}
 
@@ -45,38 +48,62 @@ public class ServerRistorante extends UnicastRemoteObject
 		try{
 			ServerRistorante serverRMI = new ServerRistorante();
 			Naming.rebind(completeName, serverRMI);
+			
+			serviceName = "ControllerLogin";
+			completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
+			controllerLogin = new ControllerLogin();
+			Naming.rebind(completeName, controllerLogin);
+			
+			serviceName = "ControllerOrdine";
+			completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
+			controllerOrdine = new ControllerOrdine();
+			Naming.rebind(completeName, controllerOrdine);
+			
+			serviceName = "ControllerMenu";
+			completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
+			controllerMenu = new ControllerMenu();
+			Naming.rebind(completeName, controllerMenu);
+			
+			serviceName = "ControllerAccount";
+			completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
+			controllerAccount = new ControllerAccount();
+			Naming.rebind(completeName, controllerAccount);
+			
+			serviceName = "ControllerPreparazioni";
+			completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
+			controllerPreparazioni = new ControllerPreparazioni();
+			Naming.rebind(completeName, controllerPreparazioni);
+			
+			System.out.println("Server online...");
 		}
 		catch(Exception e){
 			e.printStackTrace();
 			System.exit(1);
 		}
 		
-		controllerOrdine = new ControllerOrdine();
-		controllerMenu = new ControllerMenu();
-		controllerAccount = new ControllerAccount();
-		controllerPreparazioni = new ControllerPreparazioni();
+		
 		//DbMock.popolaMenu(controllerMenu);
 		//DbMock.popolaAccount(controllerAccount);
 	}
 
 	
 	@Override
-	public boolean nuovoOrdine(String nomeTavolo, int copertiA, int copertiB) {
+	public boolean nuovoOrdine(String nomeTavolo, int copertiA, int copertiB) throws RemoteException {
 		return controllerOrdine.nuovoOrdine(nomeTavolo, copertiA, copertiB);
 	}
 
 	@Override
-	public String dettagliOrdine(IOrdine ordine) {
+	public String dettagliOrdine(IOrdine ordine) throws RemoteException {
 		return controllerOrdine.dettagliOrdine(ordine);
 	}
 
 	@Override
-	public boolean eliminaOrdine(IOrdine ordine) {
+	public boolean eliminaOrdine(IOrdine ordine) throws RemoteException {
 		return controllerOrdine.eliminaOrdine(ordine);
 	}
 
 	@Override
-	public Collection<IOrdine> elencaOrdini() {
+	public Collection<IOrdine> elencaOrdini() throws RemoteException {
 		return controllerOrdine.elencaOrdini();
 	}
 
@@ -205,6 +232,11 @@ public class ServerRistorante extends UnicastRemoteObject
 	@Override
 	public boolean segnaPiattoComeConsegnato(PietanzaOrdinata pietanzaOrdinata) throws RemoteException {
 		return controllerPreparazioni.segnaPiattoComeConsegnato(pietanzaOrdinata);
+	}
+
+	@Override
+	public String autentica(String username, String password) throws RemoteException {
+		return controllerLogin.autentica(username, password);
 	}
 	
 }

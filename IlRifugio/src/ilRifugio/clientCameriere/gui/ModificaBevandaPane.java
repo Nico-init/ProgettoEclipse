@@ -1,6 +1,7 @@
 package ilRifugio.clientCameriere.gui;
 
-import ilRifugio.interfacce.controller.IControllerOrdine;
+import java.rmi.RemoteException;
+
 import ilRifugio.interfacce.dominio.IOrdine;
 import ilRifugio.serverRistorante.dominio.BevandaOrdinata;
 import javafx.geometry.Pos;
@@ -18,7 +19,6 @@ import javafx.scene.paint.Color;
 
 public class ModificaBevandaPane extends BorderPane {
 
-	private IControllerOrdine controllerO;
 	private Button inserisci, annulla;
 	private TextArea taNome;
 	private TextField tfQuantita;
@@ -27,8 +27,7 @@ public class ModificaBevandaPane extends BorderPane {
 	private IOrdine ordineDaVisualizzare;
 	private BevandaOrdinata bevandaOrdinataDaVisualizzare;
 	
-	public ModificaBevandaPane(IControllerOrdine controllerO) {
-		this.controllerO = controllerO;
+	public ModificaBevandaPane() {
 		this.bevandaOrdinataDaVisualizzare = ClientCameriereApp.getBevandaOrdinataDaVisualizzare();
 		this.ordineDaVisualizzare = ClientCameriereApp.getIOrdineDaVisualizzare();
 
@@ -86,7 +85,7 @@ public class ModificaBevandaPane extends BorderPane {
 		annulla = new Button("ANNULLA");
 		annulla.setAlignment(Pos.CENTER_RIGHT);
 		annulla.setOnAction(event -> {
-			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere(controllerO);
+			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere();
 			Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
 			ClientCameriereApp.getStage().setScene(oldScene);
          });
@@ -110,10 +109,13 @@ public class ModificaBevandaPane extends BorderPane {
 			alert("Errore", "Inserimento non corretto", "Quantita deve essere un numero");
 			return;
 		}
-		controllerO.modificaBevandaOrdinata(ordineDaVisualizzare.getNomeTavolo(), ordineDaVisualizzare.getDataOra(), bevandaOrdinataDaVisualizzare.getBevanda(), iQuantita);
-		OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere(controllerO);
-		Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
-		ClientCameriereApp.getStage().setScene(oldScene);
+		try {
+			ClientCameriereApp.serverRistorante.modificaBevandaOrdinata(ordineDaVisualizzare.getNomeTavolo(), ordineDaVisualizzare.getDataOra(), bevandaOrdinataDaVisualizzare.getBevanda(), iQuantita);
+			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere();
+			Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
+			ClientCameriereApp.getStage().setScene(oldScene);
+		} catch (RemoteException e) {
+		}
 	}
 	
 	public static void alert(String title, String headerMessage, String contentMessage) {

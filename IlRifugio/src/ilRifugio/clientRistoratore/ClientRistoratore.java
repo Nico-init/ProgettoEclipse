@@ -7,7 +7,7 @@ import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.ICoperto;
 import ilRifugio.interfacce.dominio.IOrdine;
 import ilRifugio.interfacce.dominio.IPietanza;
-import ilRifugio.serverRistorante.IServerRistoranteProva;
+import ilRifugio.serverRistorante.IServerRistorante;
 
 public class ClientRistoratore {
 	
@@ -17,9 +17,9 @@ public class ClientRistoratore {
     static String completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
 	
 	public static void main(String[] args) throws RemoteException {
-	    IServerRistoranteProva serverRistorante = null;
+	    IServerRistorante serverRistorante = null;
 		try {
-			serverRistorante = (IServerRistoranteProva) Naming.lookup(completeName);
+			serverRistorante = (IServerRistorante) Naming.lookup(completeName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);

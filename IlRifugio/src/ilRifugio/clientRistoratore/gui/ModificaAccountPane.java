@@ -1,5 +1,7 @@
 package ilRifugio.clientRistoratore.gui;
 
+import java.rmi.RemoteException;
+
 import ilRifugio.interfacce.controller.IControllerAccount;
 import ilRifugio.interfacce.controller.IControllerLog;
 import ilRifugio.interfacce.controller.IControllerMenu;
@@ -138,7 +140,12 @@ public class ModificaAccountPane extends BorderPane {
 				String sTipo = cbTipo.getValue().toString();
 				String sUsername = tfUsername.getText().trim();
 				String sPassword = tfPassword.getText().trim();
-				controllerA.modifica(accountVisualizzare.getNome(), sUsername, sPassword, sTipo);
+				try {
+					controllerA.modifica(accountVisualizzare.getNome(), sUsername, sPassword, sTipo);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				AccountPane aPane = new AccountPane(controllerO, controllerA, controllerM, controllerL);
 				Scene newScene = new Scene(aPane, 750, 660, Color.BEIGE);
 				ClientRistoratoreApp.getStage().setScene(newScene);

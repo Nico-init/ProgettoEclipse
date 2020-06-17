@@ -18,7 +18,7 @@ public class Db2AccountDAO implements AccountDao {
 		PreparedStatement statement1 = null, statement2 = null, statement3 = null;
 
 		if (nome != null && username != null &&
-				password != null && (ruolo.equals("cameriere") || ruolo.equals("ristoratore"))) {
+				password != null && (ruolo.equals("CAMERIERE") || ruolo.equals("RISTORATORE"))) {
 			try {
 				password = DigestUtils.md5Hex(password);
 				statement1 = con.prepareStatement("insert into password (password) values (?)");

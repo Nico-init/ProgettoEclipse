@@ -59,21 +59,21 @@ public class TestDb {
 		System.out.println(result);
 		*/
 		
-		/*
+
 		AccountDao accountDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getAccountDAO();
 		
 		try {
-			accountDao.dropTable();
+			//accountDao.dropTable();
 		} catch (Exception e) {	}		
-		accountDao.createTable();
-		
-		accountDao.create("niccolò", "niccolò_rif", "niccolo", "ristoratore");
-		accountDao.create("daniele", "daniele_rif", "daniele", "cameriere");
-		accountDao.create("ruben", "ruben_rif", "ruben", "cameriere");	
+		//accountDao.createTable();
+
+		accountDao.create("niccolo", "niccolo_rif", "niccolo", "RISTORATORE");
+		accountDao.create("daniele", "daniele_rif", "daniele", "CAMERIERE");
+		accountDao.create("ruben", "ruben_rif", "ruben", "CAMERIERE");	
 		//accountDao.delete("daniele");
 		//accountDao.update("ruben", "ruben_rifugio", "rubenruben", "cameriere");
 		System.out.println(accountDao.leggiAccount());		
-		*/
+		
 		
 		System.out.println("Fatto");
 	}

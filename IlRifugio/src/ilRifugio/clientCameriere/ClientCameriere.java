@@ -10,7 +10,7 @@ import java.util.TimeZone;
 import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.IOrdine;
 import ilRifugio.interfacce.dominio.IPietanza;
-import ilRifugio.serverRistorante.IServerRistoranteProva;
+import ilRifugio.serverRistorante.IServerRistorante;
 import ilRifugio.serverRistorante.dominio.Bevanda;
 import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 import ilRifugio.serverRistorante.dominio.OrdineConsegna;
@@ -25,9 +25,9 @@ public class ClientCameriere {
 	
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws RemoteException {
-	    IServerRistoranteProva serverRistorante = null;
+	    IServerRistorante serverRistorante = null;
 		try {
-			serverRistorante = (IServerRistoranteProva) Naming.lookup(completeName);
+			serverRistorante = (IServerRistorante) Naming.lookup(completeName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);

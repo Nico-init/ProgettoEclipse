@@ -39,3 +39,18 @@
 16/06/20, 21:41	ordinaBevanda_Uno_Fanta Lattina_3	utente
 16/06/20, 21:41	modificaBevandaOrdinata_Uno_Fanta Lattina_5	utente
 16/06/20, 21:41	ordinaPietanza_Uno_Tris di affettati_6	utente
+16/06/20, 23:12	nuovoOrdine_5	utente
+17/06/20, 11:35	nuovoOrdine_tavolo1	utente
+17/06/20, 11:35	nuovoOrdine_tavolo2	utente
+17/06/20, 11:35	ordinaPietanza_tavolo1_lasagne_2	utente
+17/06/20, 11:35	ordinaPietanza_tavolo1_bistecca_2	utente
+17/06/20, 11:35	ordinaBevanda_tavolo1_coca cola_2	utente
+17/06/20, 11:35	ordinaBevanda_tavolo1_birra_2	utente
+17/06/20, 11:35	ordinaBevanda_tavolo1_acqua naturale_4	utente
+17/06/20, 11:35	modificaBevandaOrdinata_tavolo1_birra_1	utente
+17/06/20, 11:35	ordinaPietanza_tavolo2_spaghetti_5	utente
+17/06/20, 15:55	aggiungiAccount_GINO_username_RISTORATORE	ristoratore
+17/06/20, 16:05	nuovoOrdine_5	utente
+17/06/20, 16:06	ordinaBevanda_5_CocaCola Lattina_2	utente
+17/06/20, 16:09	nuovoOrdine_1	utente
+17/06/20, 16:09	ordinaBevanda_1_CocaCola Lattina_1	utente

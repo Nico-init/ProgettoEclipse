@@ -13,7 +13,7 @@ import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 import ilRifugio.serverRistorante.dominio.OrdineConsegna;
 import ilRifugio.serverRistorante.dominio.PietanzaOrdinata;
 
-public interface IServerRistoranteProva extends Remote {
+public interface IServerRistorante extends Remote {
 	
 	// CONTROLLER MENU
 	public boolean inserisciCoperto(String nome, double prezzo) throws RemoteException;
@@ -51,5 +51,7 @@ public interface IServerRistoranteProva extends Remote {
 	// CONTROLLER PREPARAZIONI
 	public String elencaPiattiDaPreparare(CategoriaPietanza categoriaPietanza) throws RemoteException;
 	public boolean segnaPiattoComeConsegnato(PietanzaOrdinata pietanzaOrdinata) throws RemoteException;
-	
+
+	//CONTROLLER LOGIN
+	public String autentica(String username, String password) throws RemoteException;
 }

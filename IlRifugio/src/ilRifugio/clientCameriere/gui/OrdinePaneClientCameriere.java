@@ -1,6 +1,9 @@
 package ilRifugio.clientCameriere.gui;
 
-import ilRifugio.interfacce.controller.IControllerOrdine;
+import java.rmi.RemoteException;
+import java.text.DateFormat;
+import java.util.Locale;
+
 import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.IOrdine;
 import ilRifugio.interfacce.dominio.IPietanza;
@@ -27,8 +30,6 @@ import javafx.util.Callback;
 
 public class OrdinePaneClientCameriere extends BorderPane {
 
-	@SuppressWarnings("unused")
-	private IControllerOrdine controllerO;
 	private IOrdine iOrdine;
 	private Button aggiungiBevanda, aggiungiPietanza, modificaDettagli, chiudi;
 	private TextArea taDataOra, taTavolo;
@@ -39,8 +40,8 @@ public class OrdinePaneClientCameriere extends BorderPane {
 	private HBox hDataOra, hDettagli, hBevande, hPietanze;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public OrdinePaneClientCameriere(IControllerOrdine controllerO) {
-		this.controllerO = controllerO;
+	public OrdinePaneClientCameriere() {
+		
 		this.iOrdine = ClientCameriereApp.getIOrdineDaVisualizzare();
 		
 		onlyPane = new VBox();
@@ -59,8 +60,9 @@ public class OrdinePaneClientCameriere extends BorderPane {
 		hDataOra.getChildren().add(data);
 		hDataOra.setSpacing(10);
 		
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.ITALY);
 		taDataOra = new TextArea();
-		taDataOra.setText(iOrdine.getDataOra().toString());
+		taDataOra.setText(df.format(iOrdine.getDataOra()));
 		taDataOra.setMaxWidth(200);
 		taDataOra.setMaxHeight(30);
 		taDataOra.setEditable(false);
@@ -106,7 +108,7 @@ public class OrdinePaneClientCameriere extends BorderPane {
         
         modificaDettagli = new Button("MODIFICA DETTAGLI");
         modificaDettagli.setOnAction(event -> {
-        	ModificaDettagliPane modificaD = new ModificaDettagliPane(controllerO);
+        	ModificaDettagliPane modificaD = new ModificaDettagliPane();
 			Scene nextSceneD = new Scene(modificaD, 750, 660, Color.BEIGE);
 			ClientCameriereApp.getStage().setScene(nextSceneD);
          });
@@ -126,7 +128,7 @@ public class OrdinePaneClientCameriere extends BorderPane {
 		tableBevande.setMinWidth(460);
 		tableBevande.setMaxHeight(215);
 		tableBevande.setItems(tvBevandeObservableList);
-        TableColumn<BevandaOrdinata, IBevanda> colNomeBevanda = new TableColumn<BevandaOrdinata, IBevanda>("Bevanda e Prezzo");
+        TableColumn<BevandaOrdinata, IBevanda> colNomeBevanda = new TableColumn<BevandaOrdinata, IBevanda>("Bevanda");
         colNomeBevanda.setCellValueFactory(new PropertyValueFactory<>("bevanda"));
         colNomeBevanda.setMinWidth(150);
         TableColumn<BevandaOrdinata, Integer> colQuantitaBevanda = new TableColumn<BevandaOrdinata, Integer>("Quantita");
@@ -149,7 +151,10 @@ public class OrdinePaneClientCameriere extends BorderPane {
                             setText(null);
                         } else {
                         	btnRimuoviBevanda.setOnAction(event -> {
-                        		controllerO.rimuoviBevanda(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getBevanda());
+                        		try {
+                        			ClientCameriereApp.serverRistorante.rimuoviBevanda(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getBevanda());
+								} catch (RemoteException e) {
+								}
                         		tableBevande.getItems().clear();
                         		tvBevandeObservableList.clear();
                         		tvBevandeObservableList.addAll(iOrdine.getBevande());
@@ -185,7 +190,7 @@ public class OrdinePaneClientCameriere extends BorderPane {
                         } else {
                         	btnModificaBevanda.setOnAction(event -> {
                         		ClientCameriereApp.setBevandaOrdinataDaVisualizzare(getTableView().getItems().get(getIndex()));
-                        		ModificaBevandaPane modificaB = new ModificaBevandaPane(controllerO);
+                        		ModificaBevandaPane modificaB = new ModificaBevandaPane();
                     			Scene nextSceneMB = new Scene(modificaB, 750, 660, Color.BEIGE);
                     			ClientCameriereApp.getStage().setScene(nextSceneMB);
                             });
@@ -204,9 +209,13 @@ public class OrdinePaneClientCameriere extends BorderPane {
         
 		aggiungiBevanda = new Button("AGGIUNGI BEVANDA");
 		aggiungiBevanda.setOnAction(event -> {
-			AggiungiBevandaPane aggiungiB = new AggiungiBevandaPane(controllerO);
-			Scene nextSceneAB = new Scene(aggiungiB, 750, 660, Color.BEIGE);
-			ClientCameriereApp.getStage().setScene(nextSceneAB);
+			AggiungiBevandaPane aggiungiB;
+			try {
+				aggiungiB = new AggiungiBevandaPane();
+				Scene nextSceneAB = new Scene(aggiungiB, 750, 660, Color.BEIGE);
+				ClientCameriereApp.getStage().setScene(nextSceneAB);
+			} catch (RemoteException e) {
+			}
          });
 		hBevande.getChildren().add(aggiungiBevanda);
 		hBevande.setSpacing(10);
@@ -218,13 +227,13 @@ public class OrdinePaneClientCameriere extends BorderPane {
 		hPietanze.setSpacing(10);
 		
         ObservableList<PietanzaOrdinata> tvPietanzeObservableList = FXCollections.observableArrayList();
-		tvPietanzeObservableList.addAll(iOrdine.getPietanze());
+        tvPietanzeObservableList.addAll(iOrdine.getPietanze());
 		tablePietanze = new TableView<PietanzaOrdinata>();		
 		tablePietanze.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		tablePietanze.setMinWidth(700);
 		tablePietanze.setMaxHeight(215);
 		tablePietanze.setItems(tvPietanzeObservableList);
-        TableColumn<PietanzaOrdinata, IPietanza> colNomePietanza = new TableColumn<PietanzaOrdinata, IPietanza>("Pietanza, Prezzo e Categoria");
+        TableColumn<PietanzaOrdinata, IPietanza> colNomePietanza = new TableColumn<PietanzaOrdinata, IPietanza>("Pietanza");
         colNomePietanza.setCellValueFactory(new PropertyValueFactory<>("pietanza"));
         colNomePietanza.setMinWidth(150);
         TableColumn<PietanzaOrdinata, Integer> colQuantita = new TableColumn<PietanzaOrdinata, Integer>("Quantita"); 
@@ -253,11 +262,14 @@ public class OrdinePaneClientCameriere extends BorderPane {
                             setText(null);
                         } else {
                         	btnRimuoviPietanza.setOnAction(event -> {
-                        		controllerO.rimuoviPietanza(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getPietanza(), getTableView().getItems().get(getIndex()).getOrdineConsegna());
-                        		tablePietanze.getItems().clear();
-                        		tvPietanzeObservableList.clear();
-                        		tvPietanzeObservableList.addAll(iOrdine.getPietanze());
-                        		tablePietanze.setItems(tvPietanzeObservableList);
+                        		try {
+                        			ClientCameriereApp.serverRistorante.rimuoviPietanza(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getPietanza(), getTableView().getItems().get(getIndex()).getOrdineConsegna());
+	                        		tablePietanze.getItems().clear();
+	                        		tvPietanzeObservableList.clear();
+	                        		tvPietanzeObservableList.addAll(iOrdine.getPietanze());
+	                        		tablePietanze.setItems(tvPietanzeObservableList);
+                        		} catch (RemoteException e) {
+								}
                         	});
                             setGraphic(btnRimuoviPietanza);
                             setText(null);
@@ -288,7 +300,7 @@ public class OrdinePaneClientCameriere extends BorderPane {
                         } else {
                         	btnModificaPietanza.setOnAction(event -> {
                         		ClientCameriereApp.setPietanzaOrdinataDaVisualizzare(getTableView().getItems().get(getIndex()));
-                        		ModificaPietanzaPane modificaP = new ModificaPietanzaPane(controllerO);
+                        		ModificaPietanzaPane modificaP = new ModificaPietanzaPane();
                     			Scene nextSceneMP = new Scene(modificaP, 750, 660, Color.BEIGE);
                     			ClientCameriereApp.getStage().setScene(nextSceneMP);
                             });
@@ -309,9 +321,13 @@ public class OrdinePaneClientCameriere extends BorderPane {
         
 		aggiungiPietanza = new Button("AGGIUNGI PIETANZA");
 		aggiungiPietanza.setOnAction(event -> {
-			AggiungiPietanzaPane aggiungiP = new AggiungiPietanzaPane(controllerO);
-			Scene nextSceneAP = new Scene(aggiungiP, 750, 660, Color.BEIGE);
-			ClientCameriereApp.getStage().setScene(nextSceneAP);
+			AggiungiPietanzaPane aggiungiP;
+			try {
+				aggiungiP = new AggiungiPietanzaPane();
+				Scene nextSceneAP = new Scene(aggiungiP, 750, 660, Color.BEIGE);
+				ClientCameriereApp.getStage().setScene(nextSceneAP);
+			} catch (RemoteException e) {
+			}
          });
         onlyPane.getChildren().add(aggiungiPietanza);
 		onlyPane.setSpacing(10);
@@ -320,9 +336,13 @@ public class OrdinePaneClientCameriere extends BorderPane {
 		chiudi = new Button("CHIUDI");
 		chiudi.setAlignment(Pos.BOTTOM_RIGHT);
 		chiudi.setOnAction(event -> {
-			HomeClientCameriere home = new HomeClientCameriere(controllerO);
-			Scene oldScene = new Scene(home, 750, 660, Color.BEIGE);
-			ClientCameriereApp.getStage().setScene(oldScene);
+			HomeClientCameriere home;
+			try {
+				home = new HomeClientCameriere();
+				Scene oldScene = new Scene(home, 750, 660, Color.BEIGE);
+				ClientCameriereApp.getStage().setScene(oldScene);
+			} catch (RemoteException e) {
+			}
          });
 		this.setRight(chiudi);
 	}

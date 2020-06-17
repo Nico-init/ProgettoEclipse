@@ -1,5 +1,7 @@
 package ilRifugio.clientRistoratore.gui;
 
+import java.rmi.RemoteException;
+
 import ilRifugio.clientCameriere.gui.AggiungiBevandaPane;
 import ilRifugio.clientCameriere.gui.AggiungiPietanzaPane;
 import ilRifugio.clientCameriere.gui.ClientCameriereApp;
@@ -169,7 +171,12 @@ public class OrdinePaneClientRistoratore extends BorderPane {
                             setText(null);
                         } else {
                         	btnRimuoviBevanda.setOnAction(event -> {
-                        		controllerO.rimuoviBevanda(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getBevanda());
+                        		try {
+									controllerO.rimuoviBevanda(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getBevanda());
+								} catch (RemoteException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
                         		tableBevande.getItems().clear();
                         		tvBevandeObservableList.clear();
                         		tvBevandeObservableList.addAll(iOrdine.getBevande());
@@ -278,7 +285,12 @@ public class OrdinePaneClientRistoratore extends BorderPane {
                             setText(null);
                         } else {
                         	btnRimuoviPietanza.setOnAction(event -> {
-                        		controllerO.rimuoviPietanza(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getPietanza(), getTableView().getItems().get(getIndex()).getOrdineConsegna());
+                        		try {
+									controllerO.rimuoviPietanza(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getPietanza(), getTableView().getItems().get(getIndex()).getOrdineConsegna());
+								} catch (RemoteException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
                         		tablePietanze.getItems().clear();
                         		tvPietanzeObservableList.clear();
                         		tvPietanzeObservableList.addAll(iOrdine.getPietanze());

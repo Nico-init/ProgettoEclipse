@@ -1,6 +1,7 @@
 package ilRifugio.clientCameriere.gui;
 
-import ilRifugio.interfacce.controller.IControllerOrdine;
+import java.rmi.RemoteException;
+
 import ilRifugio.interfacce.dominio.IOrdine;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,15 +17,13 @@ import javafx.scene.paint.Color;
 
 public class ModificaDettagliPane extends BorderPane {
 	
-	private IControllerOrdine controllerO;
 	private IOrdine iOrdine;
 	private Button inserisciT, inserisciB, inserisciA, annulla;
 	private VBox onlyPane;
 	private TextField tfTavolo, tfBambini, tfAdulti;
 	private HBox hTavolo, hBambini, hAdulti;
 	
-	public ModificaDettagliPane(IControllerOrdine controllerO) {
-		this.controllerO = controllerO;
+	public ModificaDettagliPane() {
 		this.iOrdine = ClientCameriereApp.getIOrdineDaVisualizzare();
 		
 		onlyPane = new VBox();
@@ -105,7 +104,7 @@ public class ModificaDettagliPane extends BorderPane {
 		annulla = new Button("ANNULLA");
 		annulla.setAlignment(Pos.CENTER_RIGHT);
 		annulla.setOnAction(event -> {
-			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere(controllerO);
+			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere();
 			Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
 			ClientCameriereApp.getStage().setScene(oldScene);
          });
@@ -120,10 +119,14 @@ public class ModificaDettagliPane extends BorderPane {
 			return;
 		}
 		String sTavolo = tfTavolo.getText().trim();
-		controllerO.modificaNomeTavolo(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), sTavolo);
-		OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere(controllerO);
-		Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
-		ClientCameriereApp.getStage().setScene(oldScene);
+		try {
+			ClientCameriereApp.serverRistorante.modificaNomeTavolo(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), sTavolo);
+			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere();
+			Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
+			ClientCameriereApp.getStage().setScene(oldScene);
+		} catch (RemoteException e) {
+
+		}
 	}
 	
 	private void inserisciAHandler(Button inserisciA) {
@@ -139,10 +142,13 @@ public class ModificaDettagliPane extends BorderPane {
 			alert("Errore", "Inserimento non corretto", "Coperto adulti deve essere un numero");
 			return;
 		}
-		controllerO.modificaCopertiAdulti(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), iAdulti);
-		OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere(controllerO);
-		Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
-		ClientCameriereApp.getStage().setScene(oldScene);
+		try {
+			ClientCameriereApp.serverRistorante.modificaCopertiAdulti(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), iAdulti);
+			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere();
+			Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
+			ClientCameriereApp.getStage().setScene(oldScene);
+		} catch (RemoteException e) {
+		}
 	}
 	
 	private void inserisciBHandler(Button inserisciB) {
@@ -158,10 +164,13 @@ public class ModificaDettagliPane extends BorderPane {
 			alert("Errore", "Inserimento non corretto", "Coperto bambini deve essere un numero");
 			return;
 		}
-		controllerO.modificaCopertiBambini(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), iBambini);
-		OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere(controllerO);
-		Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
-		ClientCameriereApp.getStage().setScene(oldScene);
+		try {
+			ClientCameriereApp.serverRistorante.modificaCopertiBambini(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), iBambini);
+			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere();
+			Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
+			ClientCameriereApp.getStage().setScene(oldScene);
+		} catch (RemoteException e) {
+		}
 	}
 	
 	public static void alert(String title, String headerMessage, String contentMessage) {

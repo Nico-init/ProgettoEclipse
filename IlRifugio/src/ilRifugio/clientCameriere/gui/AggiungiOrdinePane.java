@@ -1,6 +1,6 @@
 package ilRifugio.clientCameriere.gui;
 
-import ilRifugio.interfacce.controller.IControllerOrdine;
+import java.rmi.RemoteException;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,15 +17,12 @@ import javafx.scene.paint.Color;
 
 public class AggiungiOrdinePane extends BorderPane {
 
-	@SuppressWarnings("unused")
-	private IControllerOrdine controllerO;
 	private Button inserisci, annulla;
 	private TextField tfTavolo,tfBambini, tfAdulti;
 	private VBox vPane;
 	private HBox hTavolo, hBambini, hAdulti, hBottoni;
 
-	public AggiungiOrdinePane(IControllerOrdine controllerO) {
-		this.controllerO = controllerO;
+	public AggiungiOrdinePane() {
 		
 		vPane = new VBox();
 		vPane.setAlignment(Pos.CENTER);
@@ -96,9 +93,13 @@ public class AggiungiOrdinePane extends BorderPane {
 		annulla = new Button("ANNULLA");
 		annulla.setAlignment(Pos.CENTER_RIGHT);
 		annulla.setOnAction(event -> {
-			HomeClientCameriere home = new HomeClientCameriere(controllerO);
-			 Scene oldScene = new Scene(home, 750, 660, Color.BEIGE);
-			 ClientCameriereApp.getStage().setScene(oldScene);
+			HomeClientCameriere home;
+			try {
+				home = new HomeClientCameriere();
+				 Scene oldScene = new Scene(home, 750, 660, Color.BEIGE);
+				 ClientCameriereApp.getStage().setScene(oldScene);
+			} catch (RemoteException e) {
+			}
          });
 		hBottoni.getChildren().add(annulla);
 		hBottoni.setSpacing(50);
@@ -137,10 +138,14 @@ public class AggiungiOrdinePane extends BorderPane {
 			alert("Errore", "Inserimento non corretto", "Coperto adulti deve essere un numero");
 			return;
 		}
-		controllerO.nuovoOrdine(sTavolo, iAdulti, iBambini);
-		HomeClientCameriere ordine = new HomeClientCameriere(controllerO);
-		Scene newScene = new Scene(ordine, 750, 660, Color.BEIGE);
-		ClientCameriereApp.getStage().setScene(newScene); 
+		try {
+			ClientCameriereApp.serverRistorante.nuovoOrdine(sTavolo, iAdulti, iBambini);
+			HomeClientCameriere ordine = new HomeClientCameriere();
+			Scene newScene = new Scene(ordine, 750, 660, Color.BEIGE);
+			ClientCameriereApp.getStage().setScene(newScene); 
+		} catch (RemoteException e) {
+			alert("Errore", "Inserimento abortito", "Qualcosa non ha funzionato!");
+		}
 	}
 	
 	

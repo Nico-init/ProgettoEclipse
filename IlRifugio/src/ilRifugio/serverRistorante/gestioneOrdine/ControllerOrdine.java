@@ -2,6 +2,9 @@ package ilRifugio.serverRistorante.gestioneOrdine;
 
 import java.util.Date;
 import java.util.Locale;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 import java.util.Collection;
 
@@ -12,6 +15,7 @@ import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.ICoperto;
 import ilRifugio.interfacce.dominio.IOrdine;
 import ilRifugio.interfacce.dominio.IPietanza;
+import ilRifugio.serverRistorante.ServerRistorante;
 import ilRifugio.serverRistorante.dominio.BevandaOrdinata;
 import ilRifugio.serverRistorante.dominio.Ordine;
 import ilRifugio.serverRistorante.dominio.OrdineConsegna;
@@ -20,13 +24,17 @@ import ilRifugio.serverRistorante.dominio.PietanzaOrdinata;
 import ilRifugio.serverRistorante.gestioneLog.ControllerLog;
 import ilRifugio.serverRistorante.gestioneMenu.ControllerMenu;
 
-public class ControllerOrdine implements IControllerOrdine {
+public class ControllerOrdine extends UnicastRemoteObject  implements IControllerOrdine {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Ordini ordini;	
 	private static IControllerMenu controllerMenu;
 	private static IControllerLog controllerLog;
 	
-	public ControllerOrdine() {
+	public ControllerOrdine() throws RemoteException {
 		ordini = Ordini.getOrdiniInstance();
 		if (controllerMenu == null)
 			controllerMenu = new ControllerMenu();
@@ -36,7 +44,13 @@ public class ControllerOrdine implements IControllerOrdine {
 
 	@Override
 	public boolean nuovoOrdine(String nomeTavolo, int copertiA, int copertiB) {
-		Object[] coperti = controllerMenu.elencaCoperti().toArray();
+		Object[] coperti = null;
+		try {
+			coperti = controllerMenu.elencaCoperti().toArray();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		IOrdine ordine = new Ordine(copertiA, copertiB, nomeTavolo, (ICoperto) coperti[0], (ICoperto) coperti[1]);
 		controllerLog.aggiungiEntry("utente", "nuovoOrdine_" + nomeTavolo);
 		return ordini.aggiungiOrdine(ordine);

@@ -3,7 +3,7 @@ package ilRifugio.clientCuoco;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-import ilRifugio.serverRistorante.IServerRistoranteProva;
+import ilRifugio.serverRistorante.IServerRistorante;
 import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 
 public class ClientCuoco {
@@ -14,9 +14,9 @@ public class ClientCuoco {
     static String completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
 	
 	public static void main(String[] args) throws RemoteException {
-	    IServerRistoranteProva serverRistorante = null;
+	    IServerRistorante serverRistorante = null;
 		try {
-			serverRistorante = (IServerRistoranteProva) Naming.lookup(completeName);
+			serverRistorante = (IServerRistorante) Naming.lookup(completeName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);

@@ -1,6 +1,8 @@
 package ilRifugio.clientCuoco;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,13 +13,16 @@ import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 import ilRifugio.serverRistorante.dominio.Ordini;
 import ilRifugio.serverRistorante.dominio.PietanzaOrdinata;
 
-public class ControllerPreparazioni implements IControllerPreparazioni,IOrdineEvents,Remote {
+public class ControllerPreparazioni extends UnicastRemoteObject implements IControllerPreparazioni,IOrdineEvents {
 	
-	private static final long serialVersionUID = -4820366918215347129L;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Ordini ordini;
 	
-	public ControllerPreparazioni() {
+	public ControllerPreparazioni() throws RemoteException {
 		ordini = Ordini.getOrdiniInstance();
 		for (IOrdine ordine : ordini.elencaOrdini())
 			ordine.aggiungiObs(this);

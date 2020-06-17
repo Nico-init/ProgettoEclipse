@@ -1,5 +1,8 @@
 package ilRifugio.interfacce.controller;
 
-public interface IControllerLogin {
-	public String autentica(String username, String password);
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface IControllerLogin extends Remote {
+	public String autentica(String username, String password) throws RemoteException;
 }

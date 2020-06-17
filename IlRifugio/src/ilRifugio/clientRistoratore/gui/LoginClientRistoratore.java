@@ -1,9 +1,16 @@
 package ilRifugio.clientRistoratore.gui;
 
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+
 import ilRifugio.interfacce.controller.IControllerAccount;
 import ilRifugio.interfacce.controller.IControllerLog;
+import ilRifugio.interfacce.controller.IControllerLogin;
 import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.controller.IControllerOrdine;
+import ilRifugio.serverRistorante.IServerRistorante;
+import ilRifugio.serverRistorante.ServerRistorante;
+import ilRifugio.serverLogin.ControllerLogin;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,15 +32,55 @@ public class LoginClientRistoratore extends BorderPane {
 	private IControllerMenu controllerM;
 	@SuppressWarnings("unused")
 	private IControllerLog controllerL;
+	
 	private TextField username, password;
 	private Button accedi;
 	private VBox onlyPane;
 	
+	
+/*	private IServerRistoranteProva serverRistorante;
+	static int registryPort = 1099;
+    static String registryHost = "localhost";
+    static String serviceName = "ServerRistorante";
+    static String completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
+*/    
+    private IControllerLogin controllerLogin;
+	static int registryPort = 1099;
+    static String registryHost = "localhost";
+    static String serviceName = "ControllerLogin";
+    static String completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
+    
 	public LoginClientRistoratore(IControllerOrdine controllerO, IControllerAccount controllerA, IControllerMenu controllerM, IControllerLog controllerL) {
+/*		serverRistorante = null;
+		try {
+			serverRistorante = (IServerRistoranteProva) Naming.lookup(completeName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		if (serverRistorante == null)
+			System.exit(2);
+	*/
+		
+		controllerLogin = null;
+		try {
+			controllerLogin = (IControllerLogin) Naming.lookup(completeName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		if (controllerLogin == null)
+			System.exit(2);
+		
+		
 		this.controllerO = controllerO;
 		this.controllerA = controllerA;
 		this.controllerM = controllerM;
 		this.controllerL = controllerL;
+		
+		
 		
 		onlyPane = new VBox();
 		onlyPane.setAlignment(Pos.CENTER);
@@ -68,14 +115,27 @@ public class LoginClientRistoratore extends BorderPane {
 				alert("Errore", "Inserimento non corretto", "password errata, vuota o con troppi caratteri (> 20)");
 				return;
 			}
-			else if (username.getText().contentEquals("Username") && password.getText().contentEquals("Password")) { //PROVA
+/*			else if (username.getText().contentEquals("Username") && password.getText().contentEquals("Password")) { //PROVA
 				HomeClientRistoratore home = new HomeClientRistoratore(controllerO, controllerA, controllerM, controllerL);
 				Scene newScene = new Scene(home, 750, 660, Color.BEIGE);
 				ClientRistoratoreApp.getStage().setScene(newScene);
 			}
-			else {
-				alert("Errore", "Inserimento non corretto", "Username o Password errato");
+			*/
+			else 
+			try {
+				if(controllerLogin.autentica(username.getText(), password.getText()) != null) {
+					System.out.println("Autenticato");
+					HomeClientRistoratore home = new HomeClientRistoratore(controllerO, controllerA, controllerM, controllerL);
+					//HomeClientRistoratore home = new HomeClientRistoratore(null);
+					Scene newScene = new Scene(home, 750, 660, Color.BEIGE);
+					ClientRistoratoreApp.getStage().setScene(newScene);
+				} else {
+					alert("Errore", "Inserimento non corretto", "Username o Password errato");
+				}
+			}catch(Exception error) {
+				error.printStackTrace();
 			}
+			
 		});
 		onlyPane.getChildren().add(accedi);
 		this.setCenter(onlyPane);

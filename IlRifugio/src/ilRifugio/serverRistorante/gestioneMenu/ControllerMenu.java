@@ -1,5 +1,8 @@
 package ilRifugio.serverRistorante.gestioneMenu;
 
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
 
 import ilRifugio.interfacce.controller.IControllerLog;
@@ -7,16 +10,21 @@ import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.ICoperto;
 import ilRifugio.interfacce.dominio.IPietanza;
+import ilRifugio.serverRistorante.ServerRistorante;
 import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 import ilRifugio.serverRistorante.dominio.Menu;
 import ilRifugio.serverRistorante.gestioneLog.ControllerLog;
 
-public class ControllerMenu implements IControllerMenu {
+public class ControllerMenu extends UnicastRemoteObject implements IControllerMenu {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Menu menu;	
 	private static IControllerLog controllerLog;
 	
-	public ControllerMenu() {
+	public ControllerMenu() throws RemoteException {
 		menu = Menu.getMenuInstance();
 		if (controllerLog == null)
 			controllerLog = new ControllerLog();

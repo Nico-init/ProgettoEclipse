@@ -1,7 +1,7 @@
 package ilRifugio.clientCameriere.gui;
 
-import ilRifugio.interfacce.controller.IControllerMenu;
-import ilRifugio.interfacce.controller.IControllerOrdine;
+import java.rmi.RemoteException;
+
 import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.IOrdine;
 import javafx.collections.FXCollections;
@@ -20,8 +20,6 @@ import javafx.scene.paint.Color;
 
 public class AggiungiBevandaPane extends BorderPane {
 
-	private IControllerOrdine controllerO;
-	private IControllerMenu controllerM;
 	private Button inserisci, annulla;
 	private TextField tfQuantita;
 	private ComboBox<IBevanda> cbNome;
@@ -29,9 +27,8 @@ public class AggiungiBevandaPane extends BorderPane {
 	private HBox hNome, hQuantita, hBottoni;
 	public IOrdine ordineDaVisualizzare;
 	
-	public AggiungiBevandaPane(IControllerOrdine controllerO) {
-		this.controllerO = controllerO;
-		this.controllerM = ClientCameriereApp.getIControllerMenu();
+	public AggiungiBevandaPane() throws RemoteException {
+
 		this.ordineDaVisualizzare = ClientCameriereApp.getIOrdineDaVisualizzare();
 
 		onlyPane = new VBox();
@@ -50,7 +47,7 @@ public class AggiungiBevandaPane extends BorderPane {
 		nome.setAlignment(Pos.CENTER_LEFT);
 		hNome.getChildren().add(nome);
 		
-		cbNome = new ComboBox<IBevanda>(FXCollections.observableArrayList(controllerM.elencaBevande()));
+		cbNome = new ComboBox<IBevanda>(FXCollections.observableArrayList(ClientCameriereApp.serverRistorante.elencaBevande()));
 		cbNome.setEditable(false);
 		cbNome.setMaxWidth(400);
 		hNome.getChildren().add(cbNome);
@@ -86,7 +83,7 @@ public class AggiungiBevandaPane extends BorderPane {
 		annulla = new Button("ANNULLA");
 		annulla.setAlignment(Pos.CENTER_RIGHT);
 		annulla.setOnAction(event -> {
-			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere(controllerO);
+			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere();
 			Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
 			ClientCameriereApp.getStage().setScene(oldScene);
          });
@@ -99,7 +96,7 @@ public class AggiungiBevandaPane extends BorderPane {
 	
 	private void handler(Button inserisci) {
 		if(tfQuantita.getText().isEmpty() || tfQuantita.getText().equals(null)) {
-			alert("Errore", "Inserimento non corretto", "Quantit� errata o vuota");
+			alert("Errore", "Inserimento non corretto", "Quantita errata o vuota");
 			return;
 		}
 		if(cbNome.getValue() == null) {
@@ -112,14 +109,19 @@ public class AggiungiBevandaPane extends BorderPane {
 		try {
 			iQuantita = Integer.parseInt(sQuantita);
 		}catch(NumberFormatException e) {
-			alert("Errore", "Inserimento non corretto", "Quantit� deve essere un numero");
+			alert("Errore", "Inserimento non corretto", "Quantita deve essere un numero");
 			return;
 		}
 		
-		controllerO.ordinaBevanda(ordineDaVisualizzare.getNomeTavolo(), ordineDaVisualizzare.getDataOra(), n, iQuantita);
-		OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere(controllerO);
-		Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
-		ClientCameriereApp.getStage().setScene(oldScene);
+		try {
+			ClientCameriereApp.serverRistorante.ordinaBevanda(ordineDaVisualizzare.getNomeTavolo(), ordineDaVisualizzare.getDataOra(), n, iQuantita);
+			OrdinePaneClientCameriere ordine = new OrdinePaneClientCameriere();
+			Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
+			ClientCameriereApp.getStage().setScene(oldScene);
+		} catch (RemoteException e) {
+			
+		}
+		
 	}
 	
 	public static void alert(String title, String headerMessage, String contentMessage) {

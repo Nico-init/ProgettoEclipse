@@ -1,5 +1,6 @@
 package ilRifugio.clientRistoratore.gui;
 
+import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,7 +62,12 @@ public class AccountPane extends BorderPane {
 		onlyPane.setSpacing(10); 
 
 		ObservableList<Account> tvAccountObservableList = FXCollections.observableArrayList();
-		tvAccountObservableList.addAll(stringToAccountList(controllerA.elenca()));
+		try {
+			tvAccountObservableList.addAll(stringToAccountList(controllerA.elenca()));
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		tableAccount = new TableView<Account>();		
 		tableAccount.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		tableAccount.setMaxWidth(600);
@@ -91,10 +97,20 @@ public class AccountPane extends BorderPane {
                             setText(null);
                         } else {
                         	btnRimuoviAccount.setOnAction(event -> {
-                        		controllerA.rimuovi(getTableView().getItems().get(getIndex()).getNome());
+                        		try {
+									controllerA.rimuovi(getTableView().getItems().get(getIndex()).getNome());
+								} catch (RemoteException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
                         		tableAccount.getItems().clear();
                         		tvAccountObservableList.clear();
-                        		tvAccountObservableList.addAll(stringToAccountList(controllerA.elenca()));
+                        		try {
+									tvAccountObservableList.addAll(stringToAccountList(controllerA.elenca()));
+								} catch (RemoteException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
                         		tableAccount.setItems(tvAccountObservableList);
                         	
                         	});
@@ -232,10 +248,21 @@ public class AccountPane extends BorderPane {
 				String sTipo = cbTipo.getValue().toString();
 				String sUsername = tfUsername.getText().trim();
 				String sPassword = tfPassword.getText().trim();
-				controllerA.aggiungi(sNome, sUsername, sPassword, sTipo);
+				try {
+					controllerA.aggiungi(sNome, sUsername, sPassword, sTipo);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				tableAccount.getItems().clear();
 				tvAccountObservableList.clear();
-				tvAccountObservableList.addAll(stringToAccountList(controllerA.elenca()));
+				try {
+					System.out.println("Accounts: " + controllerA.elenca());
+					tvAccountObservableList.addAll(stringToAccountList(controllerA.elenca()));
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				tableAccount.setItems(tvAccountObservableList);
 				tfNome.setText("");
 				cbTipo.setValue(null);
@@ -250,6 +277,7 @@ public class AccountPane extends BorderPane {
 		chiudi = new Button("CHIUDI");
 		chiudi.setAlignment(Pos.BOTTOM_RIGHT);
 		chiudi.setOnAction(event -> {
+			//HomeClientRistoratore ordine = new HomeClientRistoratore(null);
 			HomeClientRistoratore ordine = new HomeClientRistoratore(controllerO, controllerA, controllerM, controllerL);
 			Scene oldScene = new Scene(ordine, 750, 660, Color.BEIGE);
 			ClientRistoratoreApp.getStage().setScene(oldScene);
