@@ -27,7 +27,12 @@ public class ControllerAccount extends UnicastRemoteObject implements IControlle
 	@Override
 	public boolean aggiungi(String nome, String username, String password, String ruolo) {
 		accountDao.create(nome, username, password, ruolo);
-		controllerLog.aggiungiEntry("ristoratore", "aggiungiAccount_" + nome + "_" + username + "_" + ruolo);
+		try {
+			controllerLog.aggiungiEntry("ristoratore", "aggiungiAccount_" + nome + "_" + username + "_" + ruolo);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 

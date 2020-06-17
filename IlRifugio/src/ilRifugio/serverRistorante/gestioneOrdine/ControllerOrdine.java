@@ -52,7 +52,12 @@ public class ControllerOrdine extends UnicastRemoteObject  implements IControlle
 			e.printStackTrace();
 		}
 		IOrdine ordine = new Ordine(copertiA, copertiB, nomeTavolo, (ICoperto) coperti[0], (ICoperto) coperti[1]);
-		controllerLog.aggiungiEntry("utente", "nuovoOrdine_" + nomeTavolo);
+		try {
+			controllerLog.aggiungiEntry("utente", "nuovoOrdine_" + nomeTavolo);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return ordini.aggiungiOrdine(ordine);
 	}
 
@@ -63,7 +68,12 @@ public class ControllerOrdine extends UnicastRemoteObject  implements IControlle
 
 	@Override
 	public boolean eliminaOrdine(IOrdine ordine) {
-		controllerLog.aggiungiEntry("utente", "nuovoOrdine_" + ordine.getNomeTavolo() + "_" + ordine.getDataOra());
+		try {
+			controllerLog.aggiungiEntry("utente", "nuovoOrdine_" + ordine.getNomeTavolo() + "_" + ordine.getDataOra());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return ordini.rimuoviOrdine(ordine);
 	}
 
@@ -86,7 +96,12 @@ public class ControllerOrdine extends UnicastRemoteObject  implements IControlle
 							return modificaPietanzaOrdinata(tavolo, dataOra, pietanza, quantita, note, ordineConsegna);
 				}
 				ordine.aggiungiPietanza(pietanza, quantita, note, ordineConsegna);
-				controllerLog.aggiungiEntry("utente", "ordinaPietanza_" + tavolo + "_" + pietanza.getNome() + "_" + quantita);
+				try {
+					controllerLog.aggiungiEntry("utente", "ordinaPietanza_" + tavolo + "_" + pietanza.getNome() + "_" + quantita);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return true;
 			}
 		}
@@ -106,7 +121,12 @@ public class ControllerOrdine extends UnicastRemoteObject  implements IControlle
 							return modificaBevandaOrdinata(tavolo, dataOra, bevanda, quantita);
 				}
 				ordine.aggiungiBevanda(bevanda, quantita);
-				controllerLog.aggiungiEntry("utente", "ordinaBevanda_" + tavolo + "_" + bevanda.getNome() + "_" + quantita);
+				try {
+					controllerLog.aggiungiEntry("utente", "ordinaBevanda_" + tavolo + "_" + bevanda.getNome() + "_" + quantita);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return true;
 			}
 		}
@@ -123,7 +143,12 @@ public class ControllerOrdine extends UnicastRemoteObject  implements IControlle
 			if (ordine.getNomeTavolo().equals(tavolo) &&
 					dataEquals(ordine.getDataOra(),dataOra)) {
 				ordine.modificaPietanza(pietanza, quantita, note, ordineConsegna);
-				controllerLog.aggiungiEntry("utente", "modificaPietanzaOrdinata_" + tavolo + "_" + pietanza.getNome() + "_" + quantita);
+				try {
+					controllerLog.aggiungiEntry("utente", "modificaPietanzaOrdinata_" + tavolo + "_" + pietanza.getNome() + "_" + quantita);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return true;
 			}
 		}
@@ -139,7 +164,12 @@ public class ControllerOrdine extends UnicastRemoteObject  implements IControlle
 			if (ordine.getNomeTavolo().equals(tavolo) &&
 					dataEquals(ordine.getDataOra(),dataOra)) {
 				ordine.modificaBevanda(bevanda, quantita);
-				controllerLog.aggiungiEntry("utente", "modificaBevandaOrdinata_" + tavolo + "_" + bevanda.getNome() + "_" + quantita);
+				try {
+					controllerLog.aggiungiEntry("utente", "modificaBevandaOrdinata_" + tavolo + "_" + bevanda.getNome() + "_" + quantita);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return true;
 			}
 		}
@@ -155,7 +185,12 @@ public class ControllerOrdine extends UnicastRemoteObject  implements IControlle
 			if (ordine.getNomeTavolo().equals(tavolo) &&
 					dataEquals(ordine.getDataOra(),dataOra)) {
 				ordine.rimuoviPietanza(pietanza, ordineConsegna);
-				controllerLog.aggiungiEntry("utente", "rimuoviPietanza_" + tavolo + "_" + pietanza.getNome());
+				try {
+					controllerLog.aggiungiEntry("utente", "rimuoviPietanza_" + tavolo + "_" + pietanza.getNome());
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return true;
 			}
 		}
@@ -169,7 +204,12 @@ public class ControllerOrdine extends UnicastRemoteObject  implements IControlle
 			if (ordine.getNomeTavolo().equals(tavolo) &&
 					dataEquals(ordine.getDataOra(),dataOra)) {
 				ordine.rimuoviBevanda(bevanda);
-				controllerLog.aggiungiEntry("utente", "rimuoviBevanda_" + tavolo + "_" + bevanda.getNome());
+				try {
+					controllerLog.aggiungiEntry("utente", "rimuoviBevanda_" + tavolo + "_" + bevanda.getNome());
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return true;
 			}
 		}

@@ -34,11 +34,21 @@ public class ControllerMenu extends UnicastRemoteObject implements IControllerMe
 	public boolean inserisciCoperto(String nome, double prezzo) {
 		if (nome.equalsIgnoreCase("adulto")) {
 			menu.inserisciCopertoAdulto(prezzo);
-			controllerLog.aggiungiEntry("ristoratore", "inserisciCopertoAdulto_" + prezzo);
+			try {
+				controllerLog.aggiungiEntry("ristoratore", "inserisciCopertoAdulto_" + prezzo);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return true;
 		} else if (nome.equalsIgnoreCase("bambino")) {
 			menu.inserisciCopertoBambino(prezzo);
-			controllerLog.aggiungiEntry("ristoratore", "inserisciCopertoBambino_" + prezzo);
+			try {
+				controllerLog.aggiungiEntry("ristoratore", "inserisciCopertoBambino_" + prezzo);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return true;
 		} else
 			return false;
@@ -48,11 +58,21 @@ public class ControllerMenu extends UnicastRemoteObject implements IControllerMe
 	public boolean modificaCoperto(String nome, double prezzo) {
 		if (nome.equalsIgnoreCase("adulto")) {
 			menu.modificaCopertoAdulto(prezzo);
-			controllerLog.aggiungiEntry("ristoratore", "modificaCopertoAdulto_" + prezzo);
+			try {
+				controllerLog.aggiungiEntry("ristoratore", "modificaCopertoAdulto_" + prezzo);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return true;
 		} else if (nome.equalsIgnoreCase("bambino")) {
 			menu.modificaCopertoBambino(prezzo);
-			controllerLog.aggiungiEntry("ristoratore", "modificaCopertoBambino_" + prezzo);
+			try {
+				controllerLog.aggiungiEntry("ristoratore", "modificaCopertoBambino_" + prezzo);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return true;
 		} else
 			return false;
@@ -70,7 +90,12 @@ public class ControllerMenu extends UnicastRemoteObject implements IControllerMe
 				return false;
 		}
 		menu.aggiungiPietanza(nome, prezzo, categoria);
-		controllerLog.aggiungiEntry("ristoratore", "aggiungiPietanza_" + nome + "_" + prezzo);
+		try {
+			controllerLog.aggiungiEntry("ristoratore", "aggiungiPietanza_" + nome + "_" + prezzo);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 
@@ -81,7 +106,12 @@ public class ControllerMenu extends UnicastRemoteObject implements IControllerMe
 				return false;
 		}
 		menu.aggiungiBevanda(nome, prezzo);
-		controllerLog.aggiungiEntry("ristoratore", "aggiungiBevanda_" + nome + "_" + prezzo);
+		try {
+			controllerLog.aggiungiEntry("ristoratore", "aggiungiBevanda_" + nome + "_" + prezzo);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 
@@ -89,7 +119,12 @@ public class ControllerMenu extends UnicastRemoteObject implements IControllerMe
 	public boolean modificaPietanza(String nome, double prezzo, CategoriaPietanza categoria) {
 		for (IPietanza pietanza : menu.elencoPietanze()) {
 			if (pietanza.getNome().equalsIgnoreCase(nome)) {
-				controllerLog.aggiungiEntry("ristoratore", "modificaPietanza_" + nome + "_" + prezzo);
+				try {
+					controllerLog.aggiungiEntry("ristoratore", "modificaPietanza_" + nome + "_" + prezzo);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return menu.modificaPietanza(nome, prezzo, categoria);
 			}
 		}
@@ -100,7 +135,12 @@ public class ControllerMenu extends UnicastRemoteObject implements IControllerMe
 	public boolean modificaBevanda(String nome, double prezzo) {
 		for (IBevanda bevanda : menu.elencoBevande()) {
 			if (bevanda.getNome().equalsIgnoreCase(nome)) {
-				controllerLog.aggiungiEntry("ristoratore", "modificaBevanda_" + nome + "_" + prezzo);
+				try {
+					controllerLog.aggiungiEntry("ristoratore", "modificaBevanda_" + nome + "_" + prezzo);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return menu.modificaBevanda(nome, prezzo);
 			}
 		}
@@ -110,10 +150,20 @@ public class ControllerMenu extends UnicastRemoteObject implements IControllerMe
 	@Override
 	public boolean rimuoviElemento(String tipo, String nome) {
 		if (tipo.equalsIgnoreCase("pietanza")) {
-			controllerLog.aggiungiEntry("ristoratore", "rimuoviPietanza_" + nome);
+			try {
+				controllerLog.aggiungiEntry("ristoratore", "rimuoviPietanza_" + nome);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return menu.rimuoviPietanza(nome);
 		} else if (tipo.equalsIgnoreCase("bevanda")) {
-			controllerLog.aggiungiEntry("ristoratore", "rimuoviBevanda_" + nome);
+			try {
+				controllerLog.aggiungiEntry("ristoratore", "rimuoviBevanda_" + nome);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return menu.rimuoviBevanda(nome);
 		} else
 			return false;

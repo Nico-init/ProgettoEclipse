@@ -21,6 +21,7 @@ import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 import ilRifugio.serverRistorante.dominio.OrdineConsegna;
 import ilRifugio.serverRistorante.dominio.PietanzaOrdinata;
 import ilRifugio.serverRistorante.gestioneAccount.ControllerAccount;
+import ilRifugio.serverRistorante.gestioneLog.ControllerLog;
 import ilRifugio.serverRistorante.gestioneMenu.ControllerMenu;
 import ilRifugio.serverRistorante.gestioneOrdine.ControllerOrdine;
 
@@ -35,6 +36,7 @@ public class ServerRistorante extends UnicastRemoteObject
 	private static IControllerAccount controllerAccount;
 	private static IControllerPreparazioni controllerPreparazioni;
 	private static IControllerLogin controllerLogin;
+	private static ControllerLog controllerLOg;
 
 	public ServerRistorante() throws RemoteException {
 		super();
@@ -73,6 +75,11 @@ public class ServerRistorante extends UnicastRemoteObject
 			completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
 			controllerPreparazioni = new ControllerPreparazioni();
 			Naming.rebind(completeName, controllerPreparazioni);
+			
+			serviceName = "ControllerLog";
+			completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
+			controllerLOg = new ControllerLog();
+			Naming.rebind(completeName, controllerLOg);
 			
 			System.out.println("Server online...");
 		}

@@ -2,22 +2,15 @@ package ilRifugio.clientRistoratore.gui;
 
 import java.rmi.RemoteException;
 
-import ilRifugio.clientCameriere.gui.AggiungiBevandaPane;
-import ilRifugio.clientCameriere.gui.AggiungiPietanzaPane;
-import ilRifugio.clientCameriere.gui.ClientCameriereApp;
-import ilRifugio.clientCameriere.gui.HomeClientCameriere;
-import ilRifugio.clientCameriere.gui.ModificaBevandaPane;
-import ilRifugio.clientCameriere.gui.ModificaDettagliPane;
-import ilRifugio.clientCameriere.gui.ModificaPietanzaPane;
 import ilRifugio.interfacce.controller.IControllerAccount;
 import ilRifugio.interfacce.controller.IControllerLog;
 import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.controller.IControllerOrdine;
 import ilRifugio.interfacce.dominio.IBevanda;
+import ilRifugio.interfacce.dominio.ICoperto;
 import ilRifugio.interfacce.dominio.IOrdine;
 import ilRifugio.interfacce.dominio.IPietanza;
 import ilRifugio.serverRistorante.dominio.BevandaOrdinata;
-import ilRifugio.serverRistorante.dominio.OrdineConsegna;
 import ilRifugio.serverRistorante.dominio.PietanzaOrdinata;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +18,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -34,8 +26,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
-
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 public class OrdinePaneClientRistoratore extends BorderPane {
 
 	@SuppressWarnings("unused")
@@ -47,319 +39,220 @@ public class OrdinePaneClientRistoratore extends BorderPane {
 	@SuppressWarnings("unused")
 	private IControllerLog controllerL;
 	private IOrdine iOrdine;
-	private Button aggiungiBevanda, aggiungiPietanza, modificaDettagli, chiudi;
-	private TextArea taDataOra, taTavolo;
+	private Button elimina, chiudi;
+	private TextArea taDataOra, taTavolo, taCoperti, taTotale;
 	private TableView<IOrdine> tableCoperti;
 	private TableView<BevandaOrdinata> tableBevande;
 	private TableView<PietanzaOrdinata> tablePietanze;
 	private VBox onlyPane;
-	private HBox hDataOra, hDettagli, hBevande, hPietanze;
+	private HBox hCoperti, hDettagli, hBevande, hPietanze, hTotale;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked" })
 	public OrdinePaneClientRistoratore(IControllerOrdine controllerO, IControllerAccount controllerA, IControllerMenu controllerM, IControllerLog controllerL) {
 		this.controllerO = controllerO;
 		this.controllerA = controllerA;
 		this.controllerM = controllerM;
 		this.controllerL = controllerL;
+		this.iOrdine = ClientRistoratoreApp.getIOrdineDaVisualizzare();
 		
 		onlyPane = new VBox();
 		onlyPane.setAlignment(Pos.CENTER);
 		onlyPane.setSpacing(10);
 		
-		Label ordineL = new Label("Ordine");
+		Label ordineL = new Label("Dettaglio Ordine");
 		onlyPane.getChildren().add(ordineL);
-		onlyPane.setSpacing(10);
-		
-		hDataOra = new HBox();
-		hDataOra.setAlignment(Pos.CENTER);
-		hDataOra.setSpacing(10);
-	
-		Label data = new Label("Data");
-		hDataOra.getChildren().add(data);
-		hDataOra.setSpacing(10);
-		
-		taDataOra = new TextArea();
-		taDataOra.setText(iOrdine.getDataOra().toString());
-		taDataOra.setMaxWidth(200);
-		taDataOra.setMaxHeight(30);
-		taDataOra.setEditable(false);
-		hDataOra.getChildren().add(taDataOra);
-		hDataOra.setSpacing(10);
-		onlyPane.getChildren().add(hDataOra);
 		onlyPane.setSpacing(10);
 		
 		hDettagli = new HBox();
 		hDettagli.setAlignment(Pos.CENTER);
-		hDettagli.setSpacing(10);
+		hDettagli.setSpacing(5);
+	
+		Label data = new Label("Data                        ");
+		hDettagli.getChildren().add(data);
+		hDettagli.setSpacing(5);
 		
-		Label tavolo = new Label("Tavolo");
+		taDataOra = new TextArea();
+		taDataOra.setText(iOrdine.getDataOra().toString());
+		taDataOra.setMaxWidth(200);
+		taDataOra.setMaxHeight(20);
+		taDataOra.setEditable(false);
+		hDettagli.getChildren().add(taDataOra);
+		hDettagli.setSpacing(5);
+		
+		Label tavolo = new Label("                     Tavolo    ");
 		hDettagli.getChildren().add(tavolo);
-		hDettagli.setSpacing(10);
+		hDettagli.setSpacing(5);
 		
 		taTavolo = new TextArea();
 		taTavolo.setText(iOrdine.getNomeTavolo());
-		taTavolo.setMaxWidth(200);
-		taTavolo.setMaxHeight(30);
+		taTavolo.setMaxWidth(195);
+		taTavolo.setMaxHeight(20);
 		taTavolo.setEditable(false);
 		hDettagli.getChildren().add(taTavolo);
-		hDettagli.setSpacing(10);
+		hDettagli.setSpacing(5);
+		onlyPane.getChildren().add(hDettagli);
+		onlyPane.setSpacing(10);
+		
+		hCoperti = new HBox();
+		hCoperti.setAlignment(Pos.CENTER);
+		hCoperti.setSpacing(10);
 		
 		Label coperti = new Label("Coperti");
-		hDettagli.getChildren().add(coperti);
-		hDettagli.setSpacing(10);
+		hCoperti.getChildren().add(coperti);
+		hCoperti.setSpacing(5);
 		
 		ObservableList<IOrdine> tvCopertiObservableList = FXCollections.observableArrayList();
 		tvCopertiObservableList.addAll(iOrdine);
 		tableCoperti = new TableView<IOrdine>();		
 		tableCoperti.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		tableCoperti.setMaxWidth(300);
+		tableCoperti.setMaxWidth(250);
 		tableCoperti.setMaxHeight(50);
 		tableCoperti.setItems(tvCopertiObservableList);
-        TableColumn<IOrdine, Integer> colCopertiAdulti = new TableColumn<IOrdine, Integer>("Nï¿½ Adulti");
+        TableColumn<IOrdine, Integer> colCopertiAdulti = new TableColumn<IOrdine, Integer>("N° Adulti");
         colCopertiAdulti.setCellValueFactory(new PropertyValueFactory<>("copertiAdulti"));
-        TableColumn<IOrdine, Integer> colCopertiBambini = new TableColumn<IOrdine, Integer>("Nï¿½ Bambini");
+        TableColumn<IOrdine, Integer> colCopertiBambini = new TableColumn<IOrdine, Integer>("N° Bambini");
         colCopertiBambini.setCellValueFactory(new PropertyValueFactory<>("copertiBambini"));  
         tableCoperti.getColumns().addAll(colCopertiAdulti, colCopertiBambini);
-        hDettagli.getChildren().add(tableCoperti);
-        hDettagli.setSpacing(10);
+        hCoperti.getChildren().add(tableCoperti);
+        hCoperti.setSpacing(5);
         
-        modificaDettagli = new Button("MODIFICA DETTAGLI");
-        modificaDettagli.setOnAction(event -> {
-        	ModificaDettagliPane modificaD = new ModificaDettagliPane(controllerO);
-			Scene nextSceneD = new Scene(modificaD, 750, 660, Color.BEIGE);
-			ClientCameriereApp.getStage().setScene(nextSceneD);
-         });
-        hDettagli.getChildren().add(modificaDettagli);
-        hDettagli.setSpacing(10);
-        onlyPane.getChildren().add(hDettagli);
+        taCoperti = new TextArea();
+		taCoperti.setEditable(false);
+		taCoperti.setMaxWidth(250);
+		taCoperti.setMaxHeight(50);
+		taCoperti.setFont(Font.font("Courier New", FontWeight.BOLD, 12));
+		try {
+			for(ICoperto c :controllerM.elencaCoperti()) {
+				if (c.getNome().equalsIgnoreCase("Adulto")) {
+					taCoperti.appendText("Prezzo Adulti:\n" + c.getPrezzo() + " Euro\n");
+				}
+				else if (c.getNome().equalsIgnoreCase("Bambino")) {
+					taCoperti.appendText("Prezzo Bambini:\n" + c.getPrezzo() + " Euro\n");
+				}
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hCoperti.getChildren().add(taCoperti);
+		hCoperti.setSpacing(50);
+		onlyPane.getChildren().add(hCoperti);
 		onlyPane.setSpacing(10);
 		
 		hBevande = new HBox();
 		hBevande.setAlignment(Pos.CENTER);
 		hBevande.setSpacing(10);
         
-        Label bevande = new Label("Bevande");
-        hBevande.getChildren().add(bevande);
-        hBevande.setSpacing(10);
-		
         ObservableList<BevandaOrdinata> tvBevandeObservableList = FXCollections.observableArrayList();
 		tvBevandeObservableList.addAll(iOrdine.getBevande());
 		tableBevande = new TableView<BevandaOrdinata>();		
 		tableBevande.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		tableBevande.setMaxWidth(750);
-		tableBevande.setMaxHeight(215);
+		tableBevande.setMinWidth(500);
+		tableBevande.setMaxHeight(180);
 		tableBevande.setItems(tvBevandeObservableList);
-        TableColumn<BevandaOrdinata, IBevanda> colNomeBevanda = new TableColumn<BevandaOrdinata, IBevanda>("Nome");
+        TableColumn<BevandaOrdinata, IBevanda> colNomeBevanda = new TableColumn<BevandaOrdinata, IBevanda>("Bevanda e Prezzo");
         colNomeBevanda.setCellValueFactory(new PropertyValueFactory<>("bevanda"));
-        TableColumn<BevandaOrdinata, Integer> colQuantitaBevanda = new TableColumn<BevandaOrdinata, Integer>("Quantitï¿½");
-        colQuantitaBevanda.setCellValueFactory(new PropertyValueFactory<>("quantita"));  
-        TableColumn colRimuoviBevanda = new TableColumn("Rimuovi");
-        colRimuoviBevanda.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-        Callback<TableColumn<BevandaOrdinata, String>, TableCell<BevandaOrdinata, String>> cellFactoryRimuoviBevanda = new Callback<TableColumn<BevandaOrdinata, String>, TableCell<BevandaOrdinata, String>>() {
-           
-			@Override
-            public TableCell call(final TableColumn<BevandaOrdinata, String> paramRimuoviBevanda) {
-                final TableCell<BevandaOrdinata, String> cellRimuoviBevanda = new TableCell<BevandaOrdinata, String>() {
-
-                    final Button btnRimuoviBevanda = new Button("                 ");
-
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                        } else {
-                        	btnRimuoviBevanda.setOnAction(event -> {
-                        		try {
-									controllerO.rimuoviBevanda(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getBevanda());
-								} catch (RemoteException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-                        		tableBevande.getItems().clear();
-                        		tvBevandeObservableList.clear();
-                        		tvBevandeObservableList.addAll(iOrdine.getBevande());
-                        		tableBevande.setItems(tvBevandeObservableList);
-                        	
-                        	});
-                            setGraphic(btnRimuoviBevanda);
-                            setText(null);
-                        }
-                    }
-                };
-                return cellRimuoviBevanda;
-            }
-        };
-        colRimuoviBevanda.setCellFactory(cellFactoryRimuoviBevanda);
-        
-        TableColumn colModificaBevanda = new TableColumn("Modifica");
-        colModificaBevanda.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-        Callback<TableColumn<BevandaOrdinata, String>, TableCell<BevandaOrdinata, String>> cellFactoryModificaBevanda = new Callback<TableColumn<BevandaOrdinata, String>, TableCell<BevandaOrdinata, String>>() {
-           
-			@Override
-            public TableCell call(final TableColumn<BevandaOrdinata, String> paramModificaBevanda) {
-                final TableCell<BevandaOrdinata, String> cellModificaBevanda = new TableCell<BevandaOrdinata, String>() {
-
-                    final Button btnModificaBevanda = new Button("                 ");
-
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                        } else {
-                        	btnModificaBevanda.setOnAction(event -> {
-                        		ClientCameriereApp.setBevandaOrdinataDaVisualizzare(getTableView().getItems().get(getIndex()));
-                        		ModificaBevandaPane modificaB = new ModificaBevandaPane(controllerO);
-                    			Scene nextSceneMB = new Scene(modificaB, 750, 660, Color.BEIGE);
-                    			ClientCameriereApp.getStage().setScene(nextSceneMB);
-                            });
-                            setGraphic(btnModificaBevanda);
-                            setText(null);
-                        }
-                    }
-                };
-                return cellModificaBevanda;
-            }
-        };
-        colModificaBevanda.setCellFactory(cellFactoryModificaBevanda);
-        tableBevande.getColumns().addAll(colNomeBevanda, colQuantitaBevanda, colRimuoviBevanda,  colModificaBevanda);
+        colNomeBevanda.setMinWidth(150);
+        TableColumn<BevandaOrdinata, Integer> colQuantitàBevanda = new TableColumn<BevandaOrdinata, Integer>("Quantità");
+        colQuantitàBevanda.setCellValueFactory(new PropertyValueFactory<>("quantita"));  
+        tableBevande.getColumns().addAll(colNomeBevanda, colQuantitàBevanda);
         hBevande.getChildren().add(tableBevande);
         hBevande.setSpacing(10);
-        
-		aggiungiBevanda = new Button("AGGIUNGI BEVANDA");
-		aggiungiBevanda.setOnAction(event -> {
-			AggiungiBevandaPane aggiungiB = new AggiungiBevandaPane(controllerO);
-			Scene nextSceneAB = new Scene(aggiungiB, 750, 660, Color.BEIGE);
-			ClientCameriereApp.getStage().setScene(nextSceneAB);
-         });
-		hBevande.getChildren().add(aggiungiBevanda);
-		hBevande.setSpacing(10);
 		onlyPane.getChildren().add(hBevande);
 		onlyPane.setSpacing(10);
 		
 		hPietanze = new HBox();
 		hPietanze.setAlignment(Pos.CENTER);
 		hPietanze.setSpacing(10);
-        
-        Label pietanze = new Label("Pietanze");
-        hPietanze.getChildren().add(pietanze);
-        hPietanze.setSpacing(10);
 		
         ObservableList<PietanzaOrdinata> tvPietanzeObservableList = FXCollections.observableArrayList();
 		tvPietanzeObservableList.addAll(iOrdine.getPietanze());
 		tablePietanze = new TableView<PietanzaOrdinata>();		
 		tablePietanze.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		tablePietanze.setMaxWidth(600);
-		tablePietanze.setMaxHeight(215);
+		tablePietanze.setMinWidth(500);
+		tablePietanze.setMaxHeight(180);
 		tablePietanze.setItems(tvPietanzeObservableList);
-        TableColumn<PietanzaOrdinata, IPietanza> colNomePietanza = new TableColumn<PietanzaOrdinata, IPietanza>("Nome");
+        TableColumn<PietanzaOrdinata, IPietanza> colNomePietanza = new TableColumn<PietanzaOrdinata, IPietanza>("Pietanza, Prezzo e Categoria");
         colNomePietanza.setCellValueFactory(new PropertyValueFactory<>("pietanza"));
-        TableColumn<PietanzaOrdinata, Integer> colQuantitaPietanza = new TableColumn<PietanzaOrdinata, Integer>("Quantitï¿½");
-        colQuantitaPietanza.setCellValueFactory(new PropertyValueFactory<>("quantita"));  
-      /*  TableColumn<Pietanza, CategoriaPietanza> colCategoriaPietanza = new TableColumn<Pietanza, CategoriaPietanza>("Categoria");
-        colCategoriaPietanza.setCellValueFactory(new PropertyValueFactory<>("categoriaPietanza"));    */
-        TableColumn<PietanzaOrdinata, OrdineConsegna> colOrdineConsegna = new TableColumn<PietanzaOrdinata, OrdineConsegna>("Ordine"); 
-        colOrdineConsegna.setCellValueFactory(new PropertyValueFactory<>("ordineConsegna"));  
+        colNomePietanza.setMinWidth(150);
+        TableColumn<PietanzaOrdinata, Integer> colQuantita = new TableColumn<PietanzaOrdinata, Integer>("Quantità"); 
+        colQuantita.setCellValueFactory(new PropertyValueFactory<>("quantita"));  
         TableColumn<PietanzaOrdinata, String> colNote = new TableColumn<PietanzaOrdinata, String>("Note");
         colNote.setCellValueFactory(new PropertyValueFactory<>("note"));  
         TableColumn<PietanzaOrdinata, Boolean> colConsegnato = new TableColumn<PietanzaOrdinata, Boolean>("Consegnato");
         colConsegnato.setCellValueFactory(new PropertyValueFactory<>("consegnato"));  
-        TableColumn colRimuoviPietanza = new TableColumn("Rimuovi");
-        colRimuoviPietanza.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-        Callback<TableColumn<PietanzaOrdinata, String>, TableCell<PietanzaOrdinata, String>> cellFactoryRimuoviPietanza = new Callback<TableColumn<PietanzaOrdinata, String>, TableCell<PietanzaOrdinata, String>>() {
-           
-			@Override
-            public TableCell call(final TableColumn<PietanzaOrdinata, String> paramRimuoviPietanza) {
-                final TableCell<PietanzaOrdinata, String> cellRimuoviPietanza = new TableCell<PietanzaOrdinata, String>() {
-
-                    final Button btnRimuoviPietanza = new Button("                 ");
-
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                        } else {
-                        	btnRimuoviPietanza.setOnAction(event -> {
-                        		try {
-									controllerO.rimuoviPietanza(iOrdine.getNomeTavolo(), iOrdine.getDataOra(), getTableView().getItems().get(getIndex()).getPietanza(), getTableView().getItems().get(getIndex()).getOrdineConsegna());
-								} catch (RemoteException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-                        		tablePietanze.getItems().clear();
-                        		tvPietanzeObservableList.clear();
-                        		tvPietanzeObservableList.addAll(iOrdine.getPietanze());
-                        		tablePietanze.setItems(tvPietanzeObservableList);
-                        	});
-                            setGraphic(btnRimuoviPietanza);
-                            setText(null);
-                        }
-                    }
-                };
-                return cellRimuoviPietanza;
-            }
-        };
-        colRimuoviPietanza.setCellFactory(cellFactoryRimuoviPietanza);
-        
-        TableColumn colModificaPietanza = new TableColumn("Modifica");
-        colModificaPietanza.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-		Callback<TableColumn<PietanzaOrdinata, String>, TableCell<PietanzaOrdinata, String>> cellFactoryModificaPietanza = new Callback<TableColumn<PietanzaOrdinata, String>, TableCell<PietanzaOrdinata, String>>() {
-           
-			@Override
-            public TableCell call(final TableColumn<PietanzaOrdinata, String> paramModificaPietanza) {
-                final TableCell<PietanzaOrdinata, String> cellModificaPietanza = new TableCell<PietanzaOrdinata, String>() {
-
-                    final Button btnModificaPietanza = new Button("                 ");
-
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                        } else {
-                        	btnModificaPietanza.setOnAction(event -> {
-                        		ClientCameriereApp.setPietanzaOrdinataDaVisualizzare(getTableView().getItems().get(getIndex()));
-                        		ModificaPietanzaPane modificaP = new ModificaPietanzaPane(controllerO);
-                    			Scene nextSceneMP = new Scene(modificaP, 750, 660, Color.BEIGE);
-                    			ClientCameriereApp.getStage().setScene(nextSceneMP);
-                            });
-                            setGraphic(btnModificaPietanza);
-                            setText(null);
-                        }
-                    }
-                };
-                return cellModificaPietanza;
-            }
-        };
-        colModificaPietanza.setCellFactory(cellFactoryModificaPietanza);
-        tablePietanze.getColumns().addAll(colNomePietanza, colQuantitaPietanza, colOrdineConsegna, colNote, colConsegnato, colRimuoviPietanza, colModificaPietanza);
+        tablePietanze.getColumns().addAll(colNomePietanza, colQuantita, colNote, colConsegnato);
         hPietanze.getChildren().add(tablePietanze);
         hPietanze.setSpacing(10);
         onlyPane.getChildren().add(hPietanze);
 		onlyPane.setSpacing(10);
-        
-		aggiungiPietanza = new Button("AGGIUNGI PIETANZA");
-		aggiungiPietanza.setOnAction(event -> {
-			AggiungiPietanzaPane aggiungiP = new AggiungiPietanzaPane(controllerO);
-			Scene nextSceneAP = new Scene(aggiungiP, 750, 660, Color.BEIGE);
-			ClientCameriereApp.getStage().setScene(nextSceneAP);
-         });
-        onlyPane.getChildren().add(aggiungiPietanza);
+		
+		hTotale = new HBox();
+		hTotale.setAlignment(Pos.CENTER);
+		hTotale.setSpacing(10);
+		
+		Label totale = new Label("Totale:");
+		hTotale.getChildren().add(totale);
+		hTotale.setSpacing(10);
+		
+		taTotale = new TextArea();
+		double dTotale = 0.0;
+		try {
+			for(ICoperto c :controllerM.elencaCoperti()) {
+				if (c.getNome().equalsIgnoreCase("ADULTI")) {
+					dTotale += iOrdine.getCopertiAdulti() * c.getPrezzo();
+				}
+				else if (c.getNome().equalsIgnoreCase("BAMBINI")) {
+					dTotale += iOrdine.getCopertiBambini() * c.getPrezzo();
+				}
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(BevandaOrdinata bo :iOrdine.getBevande()) {
+			dTotale += bo.getBevanda().getPrezzo() * bo.getQuantita();
+		}
+		for(PietanzaOrdinata bo :iOrdine.getPietanze()) {
+			dTotale += bo.getPietanza().getPrezzo() * bo.getQuantita();
+		}
+		try {
+			taTotale.setText(controllerO.dettagliOrdine(iOrdine).split("_")[6] + " Euro");
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		taTotale.setMaxWidth(120);
+		taTotale.setMaxHeight(10);
+		taTotale.setEditable(false);
+		hTotale.getChildren().add(taTotale);
+		hTotale.setSpacing(10);
+		onlyPane.getChildren().add(hTotale);
 		onlyPane.setSpacing(10);
+       
+		elimina = new Button("ELIMINA");
+		elimina.setAlignment(Pos.CENTER);
+		elimina.setOnAction(event -> {
+			try {
+				controllerO.eliminaOrdine(iOrdine);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			HomeClientRistoratore home = new HomeClientRistoratore(controllerO, controllerA, controllerM, controllerL);
+			Scene newScene = new Scene(home, 750, 660, Color.BEIGE);
+			ClientRistoratoreApp.getStage().setScene(newScene);
+         });
+        onlyPane.getChildren().add(elimina);
+		onlyPane.setSpacing(15);
 		this.setTop(onlyPane);
 		
 		chiudi = new Button("CHIUDI");
 		chiudi.setAlignment(Pos.BOTTOM_RIGHT);
 		chiudi.setOnAction(event -> {
-			HomeClientCameriere home = new HomeClientCameriere(controllerO);
+			HomeClientRistoratore home = new HomeClientRistoratore(controllerO, controllerA, controllerM, controllerL);
 			Scene oldScene = new Scene(home, 750, 660, Color.BEIGE);
-			ClientCameriereApp.getStage().setScene(oldScene);
+			ClientRistoratoreApp.getStage().setScene(oldScene);
          });
 		this.setRight(chiudi);
 	}

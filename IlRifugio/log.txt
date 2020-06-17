@@ -54,3 +54,25 @@
 17/06/20, 16:06	ordinaBevanda_5_CocaCola Lattina_2	utente
 17/06/20, 16:09	nuovoOrdine_1	utente
 17/06/20, 16:09	ordinaBevanda_1_CocaCola Lattina_1	utente
+17/06/20, 16:36	modificaCopertoAdulto_4.0	ristoratore
+17/06/20, 16:36	aggiungiBevanda_Acqua_2.0	ristoratore
+17/06/20, 16:37	aggiungiPietanza_Scamone alla mario_15.0	ristoratore
+17/06/20, 16:38	rimuoviBevanda_Sprite Lattina	ristoratore
+17/06/20, 16:38	nuovoOrdine_1	utente
+17/06/20, 16:39	aggiungiAccount_ruben_ruben_CAMERIERE	ristoratore
+17/06/20, 16:41	ordinaPietanza_1_Scamone alla mario_2	utente
+17/06/20, 16:47	ordinaBevanda_1_Fanta Lattina_1	utente
+17/06/20, 17:14	modificaCopertoBambino_1.0	ristoratore
+17/06/20, 17:15	nuovoOrdine_1	utente
+17/06/20, 17:15	aggiungiBevanda_Acqua Naturale_2.0	ristoratore
+17/06/20, 17:16	aggiungiAccount_prova_user_CAMERIERE	ristoratore
+17/06/20, 17:17	ordinaBevanda_1_Acqua_1	utente
+17/06/20, 17:17	ordinaPietanza_1_Lasagne alla Bolognese_2	utente
+17/06/20, 17:18	ordinaBevanda_1_CocaCola Lattina_1	utente
+17/06/20, 17:20	nuovoOrdine_1_Wed Jun 17 17:15:18 CEST 2020	utente
+17/06/20, 17:20	nuovoOrdine_1	utente
+17/06/20, 17:38	aggiungiAccount_asdf_asdf_CAMERIERE	ristoratore
+17/06/20, 17:40	aggiungiAccount_asdf_asdf_CAMERIERE	ristoratore
+17/06/20, 17:41	nuovoOrdine_1	utente
+17/06/20, 17:45	ordinaPietanza_1_Lasagne alla Bolognese_1	utente
+17/06/20, 17:49	nuovoOrdine_1	utente

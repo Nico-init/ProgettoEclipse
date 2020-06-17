@@ -1,4 +1,7 @@
 import ilRifugio.persistence.dao.DAOFactory;
+
+import java.rmi.RemoteException;
+
 import ilRifugio.interfacce.controller.IControllerLogin;
 import ilRifugio.persistence.dao.AccountDao;
 import ilRifugio.persistence.dao.BevandaDao;
@@ -9,16 +12,17 @@ import ilRifugio.serverRistorante.dominio.Bevanda;
 import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 import ilRifugio.serverRistorante.dominio.Coperto;
 import ilRifugio.serverRistorante.dominio.Pietanza;
+import ilRifugio.serverRistorante.gestioneMenu.ControllerMenu;
 
 public class TestDb {
 
 	public static void main(String[] args) {
 		
-		/*
+		
 		PietanzaDao pietanzaDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getPietanzaDAO();
 		BevandaDao bevandaDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getBevandaDAO();
 		CopertoDao copertiDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getCopertoDAO();		
-		
+		/*
 		try {
 			pietanzaDao.dropTable();
 		} catch (Exception e) {	}
@@ -59,7 +63,7 @@ public class TestDb {
 		System.out.println(result);
 		*/
 		
-
+/*
 		AccountDao accountDao = DAOFactory.getDAOFactory(DAOFactory.DB2).getAccountDAO();
 		
 		try {
@@ -73,6 +77,18 @@ public class TestDb {
 		//accountDao.delete("daniele");
 		//accountDao.update("ruben", "ruben_rifugio", "rubenruben", "cameriere");
 		System.out.println(accountDao.leggiAccount());		
+	*/	
+		
+		System.out.println(copertiDao.read("adulto"));
+		System.out.println(copertiDao.read("bambino"));
+		
+		try {
+			ControllerMenu c = new ControllerMenu();
+			System.out.println(c.elencaCoperti());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		System.out.println("Fatto");

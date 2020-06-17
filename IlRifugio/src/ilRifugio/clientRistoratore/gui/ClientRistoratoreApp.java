@@ -7,7 +7,9 @@ import ilRifugio.interfacce.controller.IControllerLog;
 import ilRifugio.interfacce.controller.IControllerLogin;
 import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.interfacce.controller.IControllerOrdine;
+import ilRifugio.interfacce.dominio.IBevanda;
 import ilRifugio.interfacce.dominio.IOrdine;
+import ilRifugio.interfacce.dominio.IPietanza;
 import ilRifugio.serverRistorante.IServerRistorante;
 import ilRifugio.serverRistorante.gestioneAccount.ControllerAccount;
 import ilRifugio.serverRistorante.gestioneLog.ControllerLog;
@@ -26,6 +28,8 @@ public class ClientRistoratoreApp extends Application {
 	private IControllerLog controllerL = null;
 	private static IOrdine ordineDaVisualizzare;
 	private static Account accountDaVisualizzare;
+	private static IBevanda bevandaDaVisualizzare;
+	private static IPietanza pietanzaDaVisualizzare;
 
 	private IControllerLogin controllerLogin;
 	static int registryPort = 1099;
@@ -64,7 +68,9 @@ public class ClientRistoratoreApp extends Application {
 			completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
 			controllerM = (IControllerMenu) Naming.lookup(completeName);
 
-			// da fare controler menu
+			serviceName = "ControllerLog";
+			completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
+			controllerL = (IControllerLog) Naming.lookup(completeName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -87,13 +93,29 @@ public class ClientRistoratoreApp extends Application {
 	public static IOrdine getIOrdineDaVisualizzare() {
 		return ordineDaVisualizzare;
 	}
-
+	
 	public static void setAccountDaVisualizzare(Account AccountDaVisualizzare) {
 		accountDaVisualizzare = AccountDaVisualizzare;
 	}
-
-	public static Account getAccountDaVisualizzare() {
+	
+	public static Account getAccountDaVisualizzare(){
 		return accountDaVisualizzare;
+	}
+
+	public static void setBevandaDaVisualizzare(IBevanda IBevandaDaVisualizzare) {
+		bevandaDaVisualizzare = IBevandaDaVisualizzare;
+	}
+	
+	public static IBevanda getBevandaDaVisualizzare() {
+		return bevandaDaVisualizzare;
+	}
+	
+	public static void setPietanzaDaVisualizzare(IPietanza IPietanzaDaVisualizzare) {
+		pietanzaDaVisualizzare = IPietanzaDaVisualizzare;
+	}
+	
+	public static IPietanza getPietanzaDaVisualizzare() {
+		return pietanzaDaVisualizzare;
 	}
 
 	public static void main(String[] args) {
