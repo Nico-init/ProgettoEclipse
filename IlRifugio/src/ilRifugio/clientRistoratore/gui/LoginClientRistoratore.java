@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
@@ -33,17 +34,12 @@ public class LoginClientRistoratore extends BorderPane {
 	@SuppressWarnings("unused")
 	private IControllerLog controllerL;
 	
-	private TextField username, password;
+	private TextField username;
+	private PasswordField password;
 	private Button accedi;
 	private VBox onlyPane;
 	
-	
-/*	private IServerRistoranteProva serverRistorante;
-	static int registryPort = 1099;
-    static String registryHost = "localhost";
-    static String serviceName = "ServerRistorante";
-    static String completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
-*/    
+	   
     private IControllerLogin controllerLogin;
 	static int registryPort = 1099;
     static String registryHost = "localhost";
@@ -51,17 +47,6 @@ public class LoginClientRistoratore extends BorderPane {
     static String completeName = "//" + registryHost + ":" + registryPort + "/" + serviceName;
     
 	public LoginClientRistoratore(IControllerOrdine controllerO, IControllerAccount controllerA, IControllerMenu controllerM, IControllerLog controllerL) {
-/*		serverRistorante = null;
-		try {
-			serverRistorante = (IServerRistoranteProva) Naming.lookup(completeName);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-		
-		if (serverRistorante == null)
-			System.exit(2);
-	*/
 		
 		controllerLogin = null;
 		try {
@@ -94,13 +79,14 @@ public class LoginClientRistoratore extends BorderPane {
 		onlyPane.setSpacing(100);
 		
 		username = new TextField();
-		username.setText("Username");
+		username.setPromptText("Username");
 		username.setMaxWidth(400);
 		onlyPane.getChildren().add(username);
 		onlyPane.setSpacing(25);
 		
-		password = new TextField();
-		password.setText("Password");
+		//password = new TextField();
+		password = new PasswordField();
+		password.setPromptText("Password");
 		password.setMaxWidth(400);
 		onlyPane.getChildren().add(password);
 		onlyPane.setSpacing(25);
@@ -115,14 +101,9 @@ public class LoginClientRistoratore extends BorderPane {
 				alert("Errore", "Inserimento non corretto", "password errata, vuota o con troppi caratteri (> 20)");
 				return;
 			}
-/*			else if (username.getText().contentEquals("Username") && password.getText().contentEquals("Password")) { //PROVA
-				HomeClientRistoratore home = new HomeClientRistoratore(controllerO, controllerA, controllerM, controllerL);
-				Scene newScene = new Scene(home, 750, 660, Color.BEIGE);
-				ClientRistoratoreApp.getStage().setScene(newScene);
-			}
-			*/
 			else 
 			try {
+				System.out.println(password.getText());
 				if(controllerLogin.autentica(username.getText(), password.getText()) != null) {
 					System.out.println("Autenticato");
 					HomeClientRistoratore home = new HomeClientRistoratore(controllerO, controllerA, controllerM, controllerL);

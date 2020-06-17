@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -15,7 +16,8 @@ import javafx.scene.paint.Color;
 
 public class LoginClientCameriere extends BorderPane {
 
-	private TextField username, password;
+	private TextField username;
+	private PasswordField password;
 	private Button accedi;
 	private VBox onlyPane;
 	
@@ -33,13 +35,13 @@ public class LoginClientCameriere extends BorderPane {
 		onlyPane.setSpacing(100);
 		
 		username = new TextField();
-		username.setText("Username");
+		username.setPromptText("Username");
 		username.setMaxWidth(400);
 		onlyPane.getChildren().add(username);
 		onlyPane.setSpacing(25);
 		
-		password = new TextField();
-		password.setText("Password");
+		password = new PasswordField();
+		password.setPromptText("Password");
 		password.setMaxWidth(400);
 		onlyPane.getChildren().add(password);
 		onlyPane.setSpacing(25);
