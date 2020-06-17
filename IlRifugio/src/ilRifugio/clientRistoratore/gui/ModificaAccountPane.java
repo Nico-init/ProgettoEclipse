@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -34,7 +35,8 @@ public class ModificaAccountPane extends BorderPane {
 	private Account accountVisualizzare;
 	private Button inserisci, annulla;
 	private TextArea taNome;
-	private TextField tfUsername, tfPassword;
+	private TextField tfUsername;
+	private PasswordField tfPassword;
 	private ComboBox<RuoloAccount> cbTipo;
 	private VBox onlyPane;
 	private HBox hNome, hTipo, hUsername, hPassword, hBottoni;
@@ -109,7 +111,7 @@ public class ModificaAccountPane extends BorderPane {
 		password.setAlignment(Pos.CENTER_LEFT);
 		hPassword.getChildren().add(password);
 		
-		tfPassword = new TextField();
+		tfPassword = new PasswordField();
 		tfPassword.setText("");
 		tfPassword.setPrefWidth(200);
 		tfPassword.setAlignment(Pos.CENTER_RIGHT);
