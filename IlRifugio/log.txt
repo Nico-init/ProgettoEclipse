@@ -76,3 +76,52 @@
 17/06/20, 17:41	nuovoOrdine_1	utente
 17/06/20, 17:45	ordinaPietanza_1_Lasagne alla Bolognese_1	utente
 17/06/20, 17:49	nuovoOrdine_1	utente
+18/06/20, 08:07	nuovoOrdine_2	utente
+18/06/20, 08:13	aggiungiAccount_gianni_pinotto_CAMERIERE	ristoratore
+18/06/20, 08:31	modificaBevanda_CocaCola Lattina_2.0	ristoratore
+18/06/20, 08:33	aggiungiPietanza_Tagliatella tartufo_18.0	ristoratore
+18/06/20, 08:34	nuovoOrdine_1	utente
+18/06/20, 08:35	ordinaBevanda_1_Acqua_2	utente
+18/06/20, 08:35	ordinaPietanza_1_Tris di affettati_4	utente
+18/06/20, 08:36	ordinaPietanza_1_Lasagne alla Bolognese_4	utente
+18/06/20, 08:36	ordinaPietanza_1_Scamone alla mario_2	utente
+18/06/20, 08:39	aggiungiAccount_ruben_ruben_CAMERIERE	ristoratore
+18/06/20, 08:41	modificaPietanzaOrdinata_1_Scamone alla mario_1	utente
+18/06/20, 08:41	modificaPietanzaOrdinata_1_Scamone alla mario_3	utente
+18/06/20, 08:42	ordinaPietanza_1_Scamone alla mario_1	utente
+18/06/20, 08:42	modificaBevandaOrdinata_1_Acqua_4	utente
+18/06/20, 08:45	aggiungiBevanda_Verdicchio_25.0	ristoratore
+18/06/20, 08:45	aggiungiBevanda_Chianti Riserva_35.0	ristoratore
+18/06/20, 08:45	aggiungiBevanda_San Leonardo_60.0	ristoratore
+18/06/20, 08:50	nuovoOrdine_2	utente
+18/06/20, 08:51	ordinaBevanda_1_Chianti Riserva_1	utente
+18/06/20, 08:52	modificaBevandaOrdinata_1_Chianti Riserva_2	utente
+18/06/20, 08:52	ordinaBevanda_1_San Leonardo_2	utente
+18/06/20, 09:29	aggiungiAccount_prova_adsf_CAMERIERE	ristoratore
+18/06/20, 09:30	aggiungiBevanda_Acqua frizzante_1.0	ristoratore
+18/06/20, 09:31	rimuoviBevanda_Acqua frizzante	ristoratore
+18/06/20, 09:31	nuovoOrdine_1	utente
+18/06/20, 09:31	ordinaBevanda_1_CocaCola Lattina_2	utente
+18/06/20, 09:31	ordinaBevanda_1_Acqua_1	utente
+18/06/20, 09:32	ordinaPietanza_1_Tris di affettati_4	utente
+18/06/20, 09:32	ordinaPietanza_1_Tagliatella tartufo_6	utente
+18/06/20, 09:33	ordinaBevanda_1_San Leonardo_6	utente
+18/06/20, 09:33	nuovoOrdine_1_Thu Jun 18 09:31:38 CEST 2020	utente
+18/06/20, 09:34	nuovoOrdine_11	utente
+18/06/20, 09:51	aggiungiAccount_dafs_adsf_CAMERIERE	ristoratore
+18/06/20, 09:51	aggiungiAccount_adsf_adf_CAMERIERE	ristoratore
+18/06/20, 09:52	modificaCopertoAdulto_2.0	ristoratore
+18/06/20, 09:52	aggiungiBevanda_aaa_12.0	ristoratore
+18/06/20, 09:52	rimuoviBevanda_aaa	ristoratore
+18/06/20, 09:53	nuovoOrdine_5	utente
+18/06/20, 09:53	ordinaBevanda_5_Acqua Naturale_2	utente
+18/06/20, 09:54	ordinaBevanda_5_Vino rosso_1	utente
+18/06/20, 09:54	ordinaPietanza_5_Tris di affettati_3	utente
+18/06/20, 10:27	aggiungiAccount_gigi_asdf_CAMERIERE	ristoratore
+18/06/20, 10:28	ordinaBevanda_11_Acqua_1	utente
+18/06/20, 10:28	ordinaPietanza_11_Cotoletta alla milanese_4	utente
+18/06/20, 11:16	modificaCopertoAdulto_3.0	ristoratore
+18/06/20, 11:16	aggiungiPietanza_Agnellotti tartufo_10.0	ristoratore
+18/06/20, 11:16	nuovoOrdine_2	utente
+18/06/20, 11:17	ordinaBevanda_2_Acqua_1	utente
+18/06/20, 11:17	ordinaPietanza_2_Cotoletta alla milanese_3	utente

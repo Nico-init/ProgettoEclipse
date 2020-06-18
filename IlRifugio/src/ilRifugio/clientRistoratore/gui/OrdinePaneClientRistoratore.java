@@ -1,6 +1,8 @@
 package ilRifugio.clientRistoratore.gui;
 
 import java.rmi.RemoteException;
+import java.text.DateFormat;
+import java.util.Locale;
 
 import ilRifugio.interfacce.controller.IControllerAccount;
 import ilRifugio.interfacce.controller.IControllerLog;
@@ -72,7 +74,8 @@ public class OrdinePaneClientRistoratore extends BorderPane {
 		hDettagli.setSpacing(5);
 		
 		taDataOra = new TextArea();
-		taDataOra.setText(iOrdine.getDataOra().toString());
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.ITALY);
+		taDataOra.setText(df.format(iOrdine.getDataOra()));
 		taDataOra.setMaxWidth(200);
 		taDataOra.setMaxHeight(20);
 		taDataOra.setEditable(false);

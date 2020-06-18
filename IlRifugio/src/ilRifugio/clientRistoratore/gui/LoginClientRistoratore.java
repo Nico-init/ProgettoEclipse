@@ -3,6 +3,7 @@ package ilRifugio.clientRistoratore.gui;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
+import ilRifugio.clientCameriere.gui.ClientCameriereApp;
 import ilRifugio.interfacce.controller.IControllerAccount;
 import ilRifugio.interfacce.controller.IControllerLog;
 import ilRifugio.interfacce.controller.IControllerLogin;
@@ -70,7 +71,7 @@ public class LoginClientRistoratore extends BorderPane {
 		onlyPane = new VBox();
 		onlyPane.setAlignment(Pos.CENTER);
 		
-		Label ristorante = new Label("RISTORANTE");
+		Label ristorante = new Label("RISTORATORE");
 		onlyPane.getChildren().add(ristorante);
 		onlyPane.setSpacing(25);
 		
@@ -104,7 +105,8 @@ public class LoginClientRistoratore extends BorderPane {
 			else 
 			try {
 				System.out.println(password.getText());
-				if(controllerLogin.autentica(username.getText(), password.getText()) != null) {
+				String res = controllerLogin.autentica(username.getText(), password.getText());
+				if(res != null && res.split(":")[1].equals("RISTORATORE")) {
 					System.out.println("Autenticato");
 					HomeClientRistoratore home = new HomeClientRistoratore(controllerO, controllerA, controllerM, controllerL);
 					//HomeClientRistoratore home = new HomeClientRistoratore(null);

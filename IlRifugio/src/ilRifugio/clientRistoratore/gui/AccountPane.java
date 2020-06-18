@@ -17,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -40,7 +41,8 @@ public class AccountPane extends BorderPane {
 	@SuppressWarnings("unused")
 	private IControllerLog controllerL;
 	private Button aggiungi, chiudi;
-	private TextField tfNome, tfUsername, tfPassword;
+	private TextField tfNome, tfUsername;
+	private PasswordField tfPassword;
 	private ComboBox<RuoloAccount> cbTipo;
 	private TableView<Account> tableAccount;
 	private VBox onlyPane;
@@ -215,7 +217,7 @@ public class AccountPane extends BorderPane {
 		password.setAlignment(Pos.CENTER_LEFT);
 		hPassword.getChildren().add(password);
 		
-		tfPassword = new TextField();
+		tfPassword = new PasswordField();
 		tfPassword.setText("");
 		tfPassword.setPrefWidth(200);
 		tfPassword.setAlignment(Pos.CENTER_RIGHT);

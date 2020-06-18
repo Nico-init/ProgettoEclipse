@@ -26,7 +26,7 @@ public class LoginClientCameriere extends BorderPane {
 		onlyPane = new VBox();
 		onlyPane.setAlignment(Pos.CENTER);
 		
-		Label ristorante = new Label("RISTORANTE");
+		Label ristorante = new Label("CAMERIERE");
 		onlyPane.getChildren().add(ristorante);
 		onlyPane.setSpacing(25);
 		
