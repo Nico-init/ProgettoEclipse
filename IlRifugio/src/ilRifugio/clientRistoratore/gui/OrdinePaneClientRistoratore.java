@@ -108,9 +108,9 @@ public class OrdinePaneClientRistoratore extends BorderPane {
 		tableCoperti.setMaxWidth(250);
 		tableCoperti.setMaxHeight(50);
 		tableCoperti.setItems(tvCopertiObservableList);
-        TableColumn<IOrdine, Integer> colCopertiAdulti = new TableColumn<IOrdine, Integer>("N° Adulti");
+        TableColumn<IOrdine, Integer> colCopertiAdulti = new TableColumn<IOrdine, Integer>("Nï¿½ Adulti");
         colCopertiAdulti.setCellValueFactory(new PropertyValueFactory<>("copertiAdulti"));
-        TableColumn<IOrdine, Integer> colCopertiBambini = new TableColumn<IOrdine, Integer>("N° Bambini");
+        TableColumn<IOrdine, Integer> colCopertiBambini = new TableColumn<IOrdine, Integer>("Nï¿½ Bambini");
         colCopertiBambini.setCellValueFactory(new PropertyValueFactory<>("copertiBambini"));  
         tableCoperti.getColumns().addAll(colCopertiAdulti, colCopertiBambini);
         hCoperti.getChildren().add(tableCoperti);
@@ -131,7 +131,6 @@ public class OrdinePaneClientRistoratore extends BorderPane {
 				}
 			}
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		hCoperti.getChildren().add(taCoperti);
@@ -153,9 +152,9 @@ public class OrdinePaneClientRistoratore extends BorderPane {
         TableColumn<BevandaOrdinata, IBevanda> colNomeBevanda = new TableColumn<BevandaOrdinata, IBevanda>("Bevanda e Prezzo");
         colNomeBevanda.setCellValueFactory(new PropertyValueFactory<>("bevanda"));
         colNomeBevanda.setMinWidth(150);
-        TableColumn<BevandaOrdinata, Integer> colQuantitàBevanda = new TableColumn<BevandaOrdinata, Integer>("Quantità");
-        colQuantitàBevanda.setCellValueFactory(new PropertyValueFactory<>("quantita"));  
-        tableBevande.getColumns().addAll(colNomeBevanda, colQuantitàBevanda);
+        TableColumn<BevandaOrdinata, Integer> colQuantitaBevanda = new TableColumn<BevandaOrdinata, Integer>("Quantitï¿½");
+        colQuantitaBevanda.setCellValueFactory(new PropertyValueFactory<>("quantita"));  
+        tableBevande.getColumns().addAll(colNomeBevanda, colQuantitaBevanda);
         hBevande.getChildren().add(tableBevande);
         hBevande.setSpacing(10);
 		onlyPane.getChildren().add(hBevande);
@@ -175,7 +174,7 @@ public class OrdinePaneClientRistoratore extends BorderPane {
         TableColumn<PietanzaOrdinata, IPietanza> colNomePietanza = new TableColumn<PietanzaOrdinata, IPietanza>("Pietanza, Prezzo e Categoria");
         colNomePietanza.setCellValueFactory(new PropertyValueFactory<>("pietanza"));
         colNomePietanza.setMinWidth(150);
-        TableColumn<PietanzaOrdinata, Integer> colQuantita = new TableColumn<PietanzaOrdinata, Integer>("Quantità"); 
+        TableColumn<PietanzaOrdinata, Integer> colQuantita = new TableColumn<PietanzaOrdinata, Integer>("Quantitï¿½"); 
         colQuantita.setCellValueFactory(new PropertyValueFactory<>("quantita"));  
         TableColumn<PietanzaOrdinata, String> colNote = new TableColumn<PietanzaOrdinata, String>("Note");
         colNote.setCellValueFactory(new PropertyValueFactory<>("note"));  

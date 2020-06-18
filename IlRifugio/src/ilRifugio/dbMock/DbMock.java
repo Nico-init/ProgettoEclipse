@@ -1,12 +1,14 @@
 package ilRifugio.dbMock;
 
+import java.rmi.RemoteException;
+
 import ilRifugio.interfacce.controller.IControllerAccount;
 import ilRifugio.interfacce.controller.IControllerMenu;
 import ilRifugio.serverRistorante.dominio.CategoriaPietanza;
 
 public class DbMock {
 	
-	public static void popolaMenu(IControllerMenu controllerMenu) {
+	public static void popolaMenu(IControllerMenu controllerMenu) throws RemoteException {
 		controllerMenu.inserisciCoperto("adulto", 2.5);
 		controllerMenu.inserisciCoperto("bambino", 1.5);
 		
@@ -42,7 +44,7 @@ public class DbMock {
 		controllerMenu.aggiungiPietanza("Coppa gelato", 4, CategoriaPietanza.DOLCE);
 	}
 
-	public static void popolaAccount(IControllerAccount controllerAccount) {
+	public static void popolaAccount(IControllerAccount controllerAccount) throws RemoteException {
 		controllerAccount.aggiungi("niccolo", "nr_rifugio", "prova", "ristoratore");
 		controllerAccount.aggiungi("daniele", "dc_rifugio", "prova", "cameriere");
 		controllerAccount.aggiungi("ruben", "re_rifugio", "prova", "cameriere");

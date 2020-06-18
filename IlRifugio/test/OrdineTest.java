@@ -1,6 +1,7 @@
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.rmi.RemoteException;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
@@ -16,13 +17,13 @@ import ilRifugio.serverRistorante.gestioneOrdine.ControllerOrdine;
 public class OrdineTest {
 	
 	@Test
-	public void ordiniNotNullTest() {
+	public void ordiniNotNullTest() throws RemoteException {
 		ControllerOrdine controllerOrdine = new ControllerOrdine();
 		assertNotNull(controllerOrdine);
 	}
 	
 	@Test
-	public void nuovoOrdineTest() {
+	public void nuovoOrdineTest() throws RemoteException {
 		ControllerOrdine controllerOrdine = new ControllerOrdine();
 		controllerOrdine.nuovoOrdine("tavolo1", 2, 3);
 		assertEquals(controllerOrdine.elencaOrdini().size(), 1);
@@ -32,7 +33,7 @@ public class OrdineTest {
 	}
 	
 	@Test
-	public void aggiuntaPietanzaTest() {
+	public void aggiuntaPietanzaTest() throws RemoteException {
 		ControllerOrdine controllerOrdine = new ControllerOrdine();
 		controllerOrdine.nuovoOrdine("tavolo1", 2, 3);
 		Date data = ((IOrdine)controllerOrdine.elencaOrdini().toArray()[0]).getDataOra();
